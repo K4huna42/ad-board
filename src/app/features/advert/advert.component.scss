@@ -1,0 +1,36 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width:306px;
+    height: 336px;
+
+    @media(max-width: 1200px) {
+        max-width: 28vw;
+    }
+
+    @media(max-width: 768px){
+        max-width: 33vw;
+    }
+
+    @media(max-width: 480px){
+        max-width: 66vw;
+    }
+    
+    &__title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #3b82f6;
+    }
+
+    &__price {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    &__meta {
+        font-size: 14px;
+        color: #64748b;
+    }
+}

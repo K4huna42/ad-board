@@ -1,4 +1,7 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../enviroments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +9,10 @@ import { Injectable } from '@angular/core';
 export class ImagesApiService {
 
   constructor() { }
+
+  private readonly http = inject(HttpClient);
+
+  getImage(guid: string): Observable<Blob> {
+    return this.http.get<Blob>(`${environment.baseApiURL}/Images/${guid}`);
+  }
 }

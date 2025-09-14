@@ -1,1 +1,8 @@
-<p>advert-list works!</p>
+<div class="main">
+    <div class="main__container container">
+        <h3 class="main__title">Рекомендации для вас</h3>
+        <div class="main__cards">
+            <app-advert [data]="item" *ngFor="let item of responceAdvert"></app-advert>
+        </div>
+    </div>
+</div>
