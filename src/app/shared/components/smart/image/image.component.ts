@@ -10,23 +10,25 @@ import { CommonModule } from '@angular/common';
 })
 export class ImageComponent implements OnChanges {
 
-  @Input() img_ids:string[] = []; 
-  imgArray:Blob[] = [];
+  @Input() img_ids: string[] = [];
+  imgArray: Blob[] = [];
+  imageUrls: string[] = [];
 
-  constructor(private imagesApiService: ImagesApiService){}
+  constructor(private imagesApiService: ImagesApiService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(changes["img_ids"]){
+    if (changes["img_ids"]) {
       this.reciveImg()
     }
   }
 
-  reciveImg(){
+  reciveImg() {
     this.img_ids.forEach(guid => {
       this.imagesApiService.getImage(guid).subscribe(
         (value) => {
           console.log(value)
-          this.imgArray.push(value)
+          const objectURL = URL.createObjectURL(value);
+          this.imageUrls.push(objectURL);
         },
         (error) => {
           console.log(error.error.message)
@@ -41,6 +43,6 @@ export class ImageComponent implements OnChanges {
 
 
 
-  
+
 
 }

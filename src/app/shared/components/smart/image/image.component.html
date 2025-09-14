@@ -1,5 +1,10 @@
-<div *ngFor = "let item of imgArray">
-    <img [src] = "item">
-</div>
-
-
+<ng-container *ngIf="imageUrls.length > 0">
+    <div>
+        <img class = "default_img" [src]="imageUrls[0]" alt="image" />
+    </div>
+</ng-container>
+<ng-container *ngIf="imageUrls.length == 0">
+    <div>
+        <img class = "none_img" src = "nan_img.jpg" />
+    </div>
+</ng-container>

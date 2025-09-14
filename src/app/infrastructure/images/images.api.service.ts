@@ -13,6 +13,8 @@ export class ImagesApiService {
   private readonly http = inject(HttpClient);
 
   getImage(guid: string): Observable<Blob> {
-    return this.http.get<Blob>(`${environment.baseApiURL}/Images/${guid}`);
+    return this.http.get<Blob>(`${environment.baseApiURL}/Images/${guid}`,{
+    responseType: 'blob' as 'json'
+  });
   }
 }
