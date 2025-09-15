@@ -38,7 +38,6 @@ export class AdvertListComponent implements OnInit {
     this.advertApiService.getAllAdverts(requestAdvert).subscribe(
       (value) => {
         this.responceAdvert = value.map(ShortAdvertFromDTOAdapter)
-        console.log(this.responceAdvert)
       },
       (error) => {
         console.log(error.error.message)

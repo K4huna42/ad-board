@@ -1,11 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../../core/auth/services/auth.service';
+import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
+import { CommonModule } from '@angular/common';
+import { UserDataApiService } from '../../../services/user-data-api.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+
+  stateAuth: boolean = false
+  userName$!: Observable<string | null>;
+
+  constructor(private authService: AuthService,
+    private authStateService: AuthStateService,
+    private userDataApiService: UserDataApiService) { }
+
+  ngOnInit(): void {
+    this.userDataApiService.saveUserData();
+    this.userDataApiService.loadUserFromSession();
+    this.userName$ = this.userDataApiService.userName$;
+    this.authStateService.visibleState$.subscribe((value: boolean) => {
+      this.stateAuth = value;
+    })
+
+    const item = localStorage.getItem('VXNlcklk')
+    if (item) {
+      this.stateAuth = true
+    }
+  }
+
+  openSign() {
+    this.authService.changeVisible(true)
+  }
+
+
 
 }

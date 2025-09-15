@@ -1,1 +1,9 @@
-<p>auth works!</p>
+<div class="popup-overlay" *ngIf="visible" (click)="closePopUp()">
+    <div class="popup" (click)="$event.stopPropagation()">
+        <app-form-registration *ngIf="showRegistration"></app-form-registration>
+        <app-form-authorization *ngIf="!showRegistration"></app-form-authorization>
+        <button (click)="toggleForm()" class="toggle-btn">
+            {{ showRegistration ? 'У меня уже есть аккаунт' : 'Зарегистрироваться' }}
+        </button>
+    </div>
+</div>

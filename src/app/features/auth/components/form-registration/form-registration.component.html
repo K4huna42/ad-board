@@ -1,0 +1,7 @@
+<form [formGroup]="userProfileForm" (ngSubmit)="registration()">
+    <h3 class="title">Регистрация</h3>
+    <input class="input" formControlName="name" placeholder="Имя">
+    <input class="input" formControlName="login" placeholder="Логин">
+    <input class="input" formControlName="password" placeholder="Пароль">
+    <button class = "button" type="submit">Зарегистрироваться</button>
+</form>

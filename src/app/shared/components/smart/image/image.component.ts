@@ -26,7 +26,6 @@ export class ImageComponent implements OnChanges {
     this.img_ids.forEach(guid => {
       this.imagesApiService.getImage(guid).subscribe(
         (value) => {
-          console.log(value)
           const objectURL = URL.createObjectURL(value);
           this.imageUrls.push(objectURL);
         },

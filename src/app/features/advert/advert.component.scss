@@ -4,31 +4,34 @@
     width: 100%;
     max-width:306px;
 
-    @media(max-width: 1200px) {
-        max-width: 28vw;
+    @media(max-width: 1330px) {
+        max-width: 30vw;
     }
 
-    @media(max-width: 768px){
-        max-width: 33vw;
+    @media(max-width: 800px){
+        max-width: 45vw;
     }
 
-    @media(max-width: 480px){
-        max-width: 66vw;
+    @media(max-width: 560px){
+        max-width: 85vw;
     }
     
     &__title {
+        font-family: var(--font-family);
         font-size: 18px;
         font-weight: 600;
         color: #3b82f6;
     }
 
     &__price {
+        font-family: var(--font-family);
         font-size: 18px;
         font-weight: 600;
         color: #1e293b;
     }
 
     &__meta {
+        font-family: var(--font-family);
         font-size: 14px;
         color: #64748b;
     }
