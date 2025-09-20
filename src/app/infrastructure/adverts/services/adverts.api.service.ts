@@ -15,5 +15,9 @@ export class AdvertsApiService {
     return this.http.post<ShortAdvertDtoInterface[]>(`${environment.baseApiURL}/Advert/search`, filter);
   }
 
+  getAdvertId(id: string): Observable<ShortAdvertDtoInterface> {
+    return this.http.get<ShortAdvertDtoInterface>(`${environment.baseApiURL}/Advert/${id}`)
+  }
+
 
 }

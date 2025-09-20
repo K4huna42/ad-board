@@ -25,19 +25,11 @@ export class FormAuthorizationComponent implements OnInit {
       login: ['', Validators.required]
     })
   }
+
   ngOnInit(): void {
   }
 
-  authorization() {
-    this.authApiService.signIn(this.userProfileForm.value).subscribe(
-      (value) => {
-        this.authStateService.changeVisible(true);
-        this.authService.changeVisible(false);
-        localStorage.setItem('VXNlcklk', value);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    )
+  authorizationCall(){
+    this.authService.authorization(this.userProfileForm.value)
   }
 }

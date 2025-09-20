@@ -1,25 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AdvertComponent } from '../advert/advert.component';
-import { AdvertsApiService } from '../../infrastructure/adverts/services/adverts.api.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ShortAdvertFromDTOAdapter } from './adapters/short-advert.adapter'
-import { AdvertSearchRequestToDtoAdapter } from './adapters/advert-search-request.adapter';
 import { ShortAdvert } from './domains';
+import { AdvertService } from '../../shared/services/advert.service';
+import { Observable, take } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-advert-list',
-  imports: [CommonModule, AdvertComponent],
+  standalone:true,
+  imports: [CommonModule, AdvertComponent, RouterModule],
   templateUrl: './advert-list.component.html',
   styleUrl: './advert-list.component.scss'
 })
 export class AdvertListComponent implements OnInit {
 
   advertForm: FormGroup;
-  responceAdvert: ShortAdvert[] = [];
-
-  constructor(private advertApiService:AdvertsApiService, 
+  responceAdvert$!: Observable<ShortAdvert[]>;
+  
+  constructor(
     private fb: FormBuilder,
+    private advertService:AdvertService,
+    private router:Router
   ){
     this.advertForm = this.fb.group({
       search: null,
@@ -29,20 +32,7 @@ export class AdvertListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAdverts()
+    this.responceAdvert$ = this.advertService.responceAdvert$;
+    this.advertService.getAdverts(this.advertForm.value)
   }
-
-  getAdverts(): void {
-    const requestAdvert = AdvertSearchRequestToDtoAdapter(this.advertForm.value)
-
-    this.advertApiService.getAllAdverts(requestAdvert).subscribe(
-      (value) => {
-        this.responceAdvert = value.map(ShortAdvertFromDTOAdapter)
-      },
-      (error) => {
-        console.log(error.error.message)
-      }
-    )
-  }
-
 }

@@ -2,7 +2,9 @@
     <div class="main__container container">
         <h3 class="main__title">Рекомендации для вас</h3>
         <div class="main__cards">
-            <app-advert [data]="item" *ngFor="let item of responceAdvert"></app-advert>
+            <a [routerLink]="['/advert-view', item.id]" *ngFor="let item of responceAdvert$ | async">
+                <app-advert [data]="item"></app-advert>
+            </a>
         </div>
     </div>
 </div>

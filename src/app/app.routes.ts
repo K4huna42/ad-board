@@ -1,9 +1,12 @@
 import { Routes } from '@angular/router';
-import { AdvertListComponent } from './features/advert-list/advert-list.component';
 
 export const routes: Routes = [
     {
         path:'',
-        component: AdvertListComponent
+        loadComponent: () => import('./features/advert-list/advert-list.component').then(m => m.AdvertListComponent)
+    },
+    {
+        path:'advert-view/:id',
+        loadComponent: () => import('./features/advert-view/advert-view.component').then(m => m.AdvertViewComponent)
     }
 ];

@@ -31,16 +31,7 @@ export class FormRegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registration() {
-    this.authApiService.signUp(this.userProfileForm.value).subscribe(
-      (value) => {
-        this.authStateService.changeVisible(true);
-        this.authService.changeVisible(false);
-        localStorage.setItem('VXNlcklk', value);
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    )
+  registrationCall() {
+    this.authService.registration(this.userProfileForm.value)
   }
 }

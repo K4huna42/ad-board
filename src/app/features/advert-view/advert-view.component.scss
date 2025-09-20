@@ -1,0 +1,97 @@
+.container {
+  display: flex;
+  align-items: flex-start; 
+  width: 100%;
+  max-width: 1296px;
+  padding: 0 16px;
+  margin: 0 auto;
+  gap: 24px; 
+}
+
+.name{
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 120%;
+    color: #1e293b;
+}
+
+.adress_title{
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+    color: #1e293b;
+}
+
+.adress{
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #1e293b;
+}
+
+.description_title{
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+    color: #1e293b;
+}
+
+.description{
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #1e293b;
+}
+
+.image{
+    margin-top: 12px; 
+    border-radius: 4px; 
+    width: 512px;
+}
+
+.left {
+  margin-top: 15px;
+  flex: 0 0 ;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.right {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}
+
+.cost {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 120%;
+    color: #1e293b;
+}
+
+.phone {
+    display: flex;
+    align-items: center; 
+    justify-content: center; /* выравнивает иконку и текст по вертикали */
+    gap: 8px;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    width: 416px;
+    height: 68px;
+    background: #3b82f6;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 140%;
+    color: #fff;
+}
+

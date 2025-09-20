@@ -1,4 +1,5 @@
 export interface ShortAdvertDtoInterface {
+  cost:number;
   description: string;
   id: string
   name: string;

@@ -11,5 +11,6 @@ export const ShortAdvertFromDTOAdapter =
     isActive: data.isActive,
     location: data.location,
     name: data.name,
+    cost:data.cost,
   }
 }

@@ -1,4 +1,5 @@
 export interface ShortAdvert {
+  cost: number;
   description: string;
   id: string
   name: string;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ShortAdvert } from '../advert-list/domains';
 import { RussianDatePipe } from '../../shared/pipes/russian-date.pipe';
-import { ImageComponent } from '../../shared/components/smart/image/image.component';
+import { ImageComponent } from '../../shared/components/smart/images/images.component';
 
 @Component({
   selector: 'app-advert',
