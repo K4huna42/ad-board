@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1296px;
+    padding: 0 16px;
+    margin: 0 auto;
+    gap: 24px;
+}
+
+.breadcrumbs {
+    margin-top: 32px;
+}
+
+.breadcrumbs a {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: #64748b;
+    text-decoration: none;
+
+    &:visited {
+        color: #1e293b;
+    }
+
+    &:hover {
+        text-decoration: underline;
+        color: #3b82f6;
+    }
+}

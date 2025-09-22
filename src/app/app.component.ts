@@ -4,10 +4,11 @@ import { HeaderComponent } from './shared/components/smart/header/header.compone
 import { FooterComponent } from './shared/components/dump/footer/footer.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { UserDataApiService } from './shared/services/user-data-api.service';
+import { BreadcrumbsComponent } from './shared/components/smart/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, AuthComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, AuthComponent, BreadcrumbsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

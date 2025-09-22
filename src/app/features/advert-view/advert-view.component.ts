@@ -22,8 +22,7 @@ export class AdvertViewComponent implements OnInit{
   ngOnInit(): void {
     this.responceAdvertId$ = this.advertService.responceAdvertId$;
     this.advertId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
-    this.showAdvert()
-    console.log(this.responceAdvertId$)
+    this.showAdvert();
   }
 
   showAdvert(){

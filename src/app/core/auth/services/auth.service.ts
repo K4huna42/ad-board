@@ -18,12 +18,13 @@ export class AuthService {
     this.visibleSubject.next(visible)
   }
 
-   handleAuthRequest(request$: Observable<any>) {
+   handleAuthRequest(request$: Observable<any>, type: 'auth' | 'registration') {
   request$.subscribe(
     (value) => {
       this.authStateService.changeVisible(true);
       this.changeVisible(false);
       localStorage.setItem('VXNlcklk', value);
+      localStorage.setItem('authType', type);
     },
     (error) => {
       console.log(error.error.message);
@@ -32,11 +33,11 @@ export class AuthService {
 }
 
 authorization(value: any) {
-  this.handleAuthRequest(this.authApiService.signIn(value));
+  this.handleAuthRequest(this.authApiService.signIn(value), 'auth');
 }
 
 registration(value: any) {
-  this.handleAuthRequest(this.authApiService.signUp(value));
+  this.handleAuthRequest(this.authApiService.signUp(value), 'registration');
 }
 
 

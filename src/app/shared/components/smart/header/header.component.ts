@@ -4,10 +4,11 @@ import { AuthStateService } from '../../../../core/auth/services/auth.state.serv
 import { CommonModule } from '@angular/common';
 import { UserDataApiService } from '../../../services/user-data-api.service';
 import { Observable } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -18,12 +19,14 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private authStateService: AuthStateService,
-    private userDataApiService: UserDataApiService) { }
+    private userDataApiService: UserDataApiService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.userDataApiService.saveUserData();
     this.userDataApiService.loadUserFromSession();
     this.userName$ = this.userDataApiService.userName$;
+
     this.authStateService.visibleState$.subscribe((value: boolean) => {
       this.stateAuth = value;
     })
@@ -36,6 +39,12 @@ export class HeaderComponent implements OnInit {
 
   openSign() {
     this.authService.changeVisible(true)
+  }
+
+  exitClick() {
+    localStorage.removeItem('VXNlcklk')
+    sessionStorage.removeItem('user')
+    window.location.href = '/';
   }
 
 

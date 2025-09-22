@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment.development';
@@ -11,7 +11,6 @@ export class AuthApiService {
 
   private readonly http = inject(HttpClient);
 
-  
     signUp(user: User): Observable<string> {
       return this.http.post<string>(`${environment.baseApiURL}/Auth/Register`, user);
     }
