@@ -1,5 +1,13 @@
-import { Component, inject} from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -7,10 +15,9 @@ import { CommonModule } from '@angular/common';
   selector: 'app-form-authorization',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './form-authorization.component.html',
-  styleUrl: './form-authorization.component.scss'
+  styleUrl: './form-authorization.component.scss',
 })
 export class FormAuthorizationComponent {
-
   userProfileForm: FormGroup;
 
   private fb = inject(FormBuilder);
@@ -19,8 +26,8 @@ export class FormAuthorizationComponent {
   constructor() {
     this.userProfileForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
-      login: ['', [Validators.required, this.credentialsValidator()]]
-    })
+      login: ['', [Validators.required, this.credentialsValidator()]],
+    });
   }
 
   private credentialsValidator(): ValidatorFn {
@@ -45,7 +52,7 @@ export class FormAuthorizationComponent {
     };
   }
 
-  authorizationCall(){
-    this.authService.authorization(this.userProfileForm.value)
+  authorizationCall() {
+    this.authService.authorization(this.userProfileForm.value);
   }
 }

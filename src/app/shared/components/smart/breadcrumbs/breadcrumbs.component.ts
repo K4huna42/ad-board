@@ -6,22 +6,18 @@ import { filter } from 'rxjs';
   selector: 'app-breadcrumbs',
   imports: [RouterModule],
   templateUrl: './breadcrumbs.component.html',
-  styleUrl: './breadcrumbs.component.scss'
+  styleUrl: './breadcrumbs.component.scss',
 })
 export class BreadcrumbsComponent implements OnInit {
-
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute)
-  public breadcrumbs: { title: string, url: string }[] = [];
+  private activatedRoute = inject(ActivatedRoute);
+  public breadcrumbs: { title: string; url: string }[] = [];
 
   ngOnInit(): void {
-    this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd)).subscribe(
-        () => {
-          this.breadcrumbs = [];
-          this.getBreadCrumb(this.activatedRoute.children)
-        }
-      )
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.breadcrumbs = [];
+      this.getBreadCrumb(this.activatedRoute.children);
+    });
   }
 
   getBreadCrumb(route: ActivatedRoute[], url = ''): void {
@@ -46,6 +42,6 @@ export class BreadcrumbsComponent implements OnInit {
       if (route.children.length) {
         this.getBreadCrumb(route.children, url);
       }
-    })
+    });
   }
 }

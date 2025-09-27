@@ -4,15 +4,14 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment.development';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImagesApiService {
-
   private readonly http = inject(HttpClient);
 
   getImage(guid: string): Observable<Blob> {
-    return this.http.get<Blob>(`${environment.baseApiURL}/Images/${guid}`,{
-    responseType: 'blob' as 'json'
-  });
+    return this.http.get<Blob>(`${environment.baseApiURL}/Images/${guid}`, {
+      responseType: 'blob' as 'json',
+    });
   }
 }

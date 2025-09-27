@@ -5,19 +5,19 @@ import { AdvertSearchRequestDto, ShortAdvertDtoInterface } from '../dto';
 import { environment } from '../../../../enviroments/environment.development';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdvertsApiService {
-
   private readonly http = inject(HttpClient);
 
-  getAllAdverts(filter: AdvertSearchRequestDto): Observable<ShortAdvertDtoInterface[]>{
-    return this.http.post<ShortAdvertDtoInterface[]>(`${environment.baseApiURL}/Advert/search`, filter);
+  getAllAdverts(filter: AdvertSearchRequestDto): Observable<ShortAdvertDtoInterface[]> {
+    return this.http.post<ShortAdvertDtoInterface[]>(
+      `${environment.baseApiURL}/Advert/search`,
+      filter,
+    );
   }
 
   getAdvertId(id: string): Observable<ShortAdvertDtoInterface> {
-    return this.http.get<ShortAdvertDtoInterface>(`${environment.baseApiURL}/Advert/${id}`)
+    return this.http.get<ShortAdvertDtoInterface>(`${environment.baseApiURL}/Advert/${id}`);
   }
-
-
 }

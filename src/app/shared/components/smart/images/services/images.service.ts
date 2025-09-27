@@ -3,10 +3,9 @@ import { ImagesApiService } from '../../../../../infrastructure/images/images.ap
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageService {
-
   private imagesApiService = inject(ImagesApiService);
 
   async reciveImg(img_ids: string[] = [], imageUrls: string[] = []) {

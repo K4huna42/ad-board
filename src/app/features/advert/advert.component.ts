@@ -7,10 +7,8 @@ import { ImageComponent } from '../../shared/components/smart/images/images.comp
   selector: 'app-advert',
   imports: [RussianDatePipe, ImageComponent],
   templateUrl: './advert.component.html',
-  styleUrl: './advert.component.scss'
+  styleUrl: './advert.component.scss',
 })
 export class AdvertComponent {
-
-  @Input() data!: ShortAdvert
-
+  @Input() data!: ShortAdvert;
 }

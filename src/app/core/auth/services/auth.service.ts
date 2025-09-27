@@ -5,10 +5,9 @@ import { AuthStateService } from './auth.state.service';
 import { UserDataApiService } from '../../../shared/services/user-data-api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private authApiService = inject(AuthApiService);
   private authStateService = inject(AuthStateService);
   private userDataApiService = inject(UserDataApiService);
@@ -17,7 +16,7 @@ export class AuthService {
   visiblePopUp$ = this.visibleSubject.asObservable();
 
   changeVisible(visible: boolean) {
-    this.visibleSubject.next(visible)
+    this.visibleSubject.next(visible);
   }
 
   handleAuthRequest(request$: Observable<unknown>, type: 'auth' | 'registration') {
@@ -33,7 +32,7 @@ export class AuthService {
       },
       (error) => {
         console.log(error.error.message);
-      }
+      },
     );
   }
 
@@ -44,7 +43,4 @@ export class AuthService {
   registration(value: Record<string, unknown>) {
     this.handleAuthRequest(this.authApiService.signUp(value), 'registration');
   }
-
-
-
 }

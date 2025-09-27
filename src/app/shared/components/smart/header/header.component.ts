@@ -10,11 +10,10 @@ import { RouterModule } from '@angular/router';
   selector: 'app-header',
   imports: [CommonModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-
-  stateAuth = false
+  stateAuth = false;
   userName$!: Observable<string | null>;
 
   private authService = inject(AuthService);
@@ -27,27 +26,24 @@ export class HeaderComponent implements OnInit {
 
     this.authStateService.visibleState$.subscribe((value: boolean) => {
       this.stateAuth = value;
-    })
+    });
 
-    const item = localStorage.getItem('VXNlcklk')
+    const item = localStorage.getItem('VXNlcklk');
     if (item) {
-      this.stateAuth = true
+      this.stateAuth = true;
     }
   }
 
   openSign() {
-    this.authService.changeVisible(true)
+    this.authService.changeVisible(true);
   }
 
   exitClick() {
-    const confirmed = confirm("Вы уверены, что хотите выйти?");
+    const confirmed = confirm('Вы уверены, что хотите выйти?');
     if (confirmed) {
       localStorage.removeItem('VXNlcklk');
       sessionStorage.removeItem('user');
       window.location.href = '/';
     }
   }
-
-
-
 }

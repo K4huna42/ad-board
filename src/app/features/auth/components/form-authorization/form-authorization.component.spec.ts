@@ -8,9 +8,8 @@ describe('FormAuthorizationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormAuthorizationComponent]
-    })
-    .compileComponents();
+      imports: [FormAuthorizationComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormAuthorizationComponent);
     component = fixture.componentInstance;

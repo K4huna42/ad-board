@@ -4,33 +4,32 @@ import { AdvertComponent } from '../advert/advert.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ShortAdvert } from './domains';
 import { AdvertService } from '../../shared/services/advert.service';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-advert-list',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule, AdvertComponent, RouterModule],
   templateUrl: './advert-list.component.html',
-  styleUrl: './advert-list.component.scss'
+  styleUrl: './advert-list.component.scss',
 })
 export class AdvertListComponent implements OnInit {
-
   advertForm: FormGroup;
   responceAdvert$!: Observable<ShortAdvert[]>;
   private fb = inject(FormBuilder);
   private advertService = inject(AdvertService);
-  
-  constructor(){
+
+  constructor() {
     this.advertForm = this.fb.group({
       search: null,
       showNonActive: true,
-      category: null
+      category: null,
     });
   }
 
   ngOnInit(): void {
     this.responceAdvert$ = this.advertService.responceAdvert$;
-    this.advertService.getAdverts(this.advertForm.value)
+    this.advertService.getAdverts(this.advertForm.value);
   }
 }

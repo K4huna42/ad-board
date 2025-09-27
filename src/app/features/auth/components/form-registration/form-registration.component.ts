@@ -1,5 +1,13 @@
-import { Component, inject} from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -11,23 +19,25 @@ import { CommonModule } from '@angular/common';
   styleUrl: './form-registration.component.scss',
 })
 export class FormRegistrationComponent {
-
   userProfileForm: FormGroup;
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
   constructor() {
-    this.userProfileForm = this.fb.group({
-      name: ['', [Validators.required]],
-      login: ['', [Validators.required, this.credentialsValidator()]],
-      password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
-      confirmPassword: ['', [Validators.required]]
-    }, {
-      validators: this.passwordsMatchValidator() 
-    });
+    this.userProfileForm = this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        login: ['', [Validators.required, this.credentialsValidator()]],
+        password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      {
+        validators: this.passwordsMatchValidator(),
+      },
+    );
   }
-  
+
   private passwordsMatchValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
       const password = group.get('password')?.value;
@@ -59,15 +69,12 @@ export class FormRegistrationComponent {
     };
   }
 
-
   registrationCall() {
     const form = {
       name: this.userProfileForm.get('name')?.value,
       login: this.userProfileForm.get('login')?.value,
-      password: this.userProfileForm.get('password')?.value
+      password: this.userProfileForm.get('password')?.value,
     };
-    this.authService.registration(form)
+    this.authService.registration(form);
   }
-
-
 }

@@ -9,44 +9,34 @@ import { ImageComponent } from '../../shared/components/smart/images/images.comp
   selector: 'app-advert-view',
   imports: [CommonModule, ImageComponent],
   templateUrl: './advert-view.component.html',
-  styleUrl: './advert-view.component.scss'
+  styleUrl: './advert-view.component.scss',
 })
 export class AdvertViewComponent implements OnInit {
-
-  advertId = ''
+  advertId = '';
   responceAdvertId$!: Observable<unknown>;
-  visible = false
+  visible = false;
 
   private activatedRoute = inject(ActivatedRoute);
-  private advertService = inject(AdvertService)
+  private advertService = inject(AdvertService);
 
   ngOnInit(): void {
     this.responceAdvertId$ = this.advertService.responceAdvertId$;
     this.advertId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
     this.advertService.visiblePopUp$.subscribe((value: boolean) => {
       this.visible = value;
-    })
+    });
     this.showAdvert();
   }
 
   showAdvert() {
-    this.advertService.getAdvertByid(this.advertId)
+    this.advertService.getAdvertByid(this.advertId);
   }
 
   closePopUp() {
-    this.advertService.changeVisible(false)
+    this.advertService.changeVisible(false);
   }
 
   openPopUp() {
-    this.advertService.changeVisible(true)
+    this.advertService.changeVisible(true);
   }
-
-
-
-
-
-
-
 }
-
-

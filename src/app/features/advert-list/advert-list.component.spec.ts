@@ -8,9 +8,8 @@ describe('AdvertListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdvertListComponent]
-    })
-    .compileComponents();
+      imports: [AdvertListComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AdvertListComponent);
     component = fixture.componentInstance;
