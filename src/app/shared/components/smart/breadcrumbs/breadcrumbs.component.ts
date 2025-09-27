@@ -24,7 +24,7 @@ export class BreadcrumbsComponent implements OnInit {
       )
   }
 
-  getBreadCrumb(route: ActivatedRoute[], url: string = ''): void {
+  getBreadCrumb(route: ActivatedRoute[], url = ''): void {
     route.forEach((route: ActivatedRoute) => {
       if (route.routeConfig) {
         let path = route.routeConfig.path ?? '';

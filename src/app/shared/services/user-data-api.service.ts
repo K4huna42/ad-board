@@ -29,11 +29,14 @@ export class UserDataApiService {
     return this.http.get<UserData>(`${environment.baseApiURL}/Users/current`, { headers: this.getAuthHeaders(token) });
   }
 
-  handleGetUserDataRequest(requestFn: (param: string) => Observable<any>, data: string) {
+  handleGetUserDataRequest(requestFn: (param: string) => Observable<unknown>, data: string) {
     requestFn(data).subscribe(
       (value) => {
-        sessionStorage.setItem("user", JSON.stringify(value))
-        this.userNameSubject.next(value.name);
+        if (typeof value === "object" && value !== null && "name" in value) {
+          const user = value as { name: string };
+          sessionStorage.setItem("user", JSON.stringify(user))
+          this.userNameSubject.next(user.name);
+        }
       },
       (error) => {
         console.log(error.error.message)

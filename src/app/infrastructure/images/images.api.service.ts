@@ -8,8 +8,6 @@ import { environment } from '../../../enviroments/environment.development';
 })
 export class ImagesApiService {
 
-  constructor() { }
-
   private readonly http = inject(HttpClient);
 
   getImage(guid: string): Observable<Blob> {

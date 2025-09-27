@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AdvertComponent } from '../advert/advert.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ShortAdvert } from './domains';
 import { AdvertService } from '../../shared/services/advert.service';
-import { Observable, take } from 'rxjs';
-import { Router, RouterModule } from '@angular/router';
+import { Observable} from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-advert-list',
@@ -18,12 +18,10 @@ export class AdvertListComponent implements OnInit {
 
   advertForm: FormGroup;
   responceAdvert$!: Observable<ShortAdvert[]>;
+  private fb = inject(FormBuilder);
+  private advertService = inject(AdvertService);
   
-  constructor(
-    private fb: FormBuilder,
-    private advertService:AdvertService,
-    private router:Router
-  ){
+  constructor(){
     this.advertForm = this.fb.group({
       search: null,
       showNonActive: true,

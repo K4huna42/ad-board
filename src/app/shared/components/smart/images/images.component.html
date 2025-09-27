@@ -3,8 +3,8 @@
         <img class = "default_img" [src]="imageUrls[0]" alt="image" />
     </div>
 </ng-container>
-<ng-container *ngIf="imageUrls.length == 0">
+<ng-container *ngIf="imageUrls.length === 0">
     <div>
-        <img class = "none_img" src = "nan_img.jpg" />
+        <img class = "none_img" src = "nan_img.jpg" alt=""/>
     </div>
 </ng-container>

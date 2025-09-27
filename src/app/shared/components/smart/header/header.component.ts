@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
 import { CommonModule } from '@angular/common';
 import { UserDataApiService } from '../../../services/user-data-api.service';
 import { Observable } from 'rxjs';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -14,16 +14,14 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  stateAuth: boolean = false
+  stateAuth = false
   userName$!: Observable<string | null>;
 
-  constructor(private authService: AuthService,
-    private authStateService: AuthStateService,
-    private userDataApiService: UserDataApiService,
-    private router: Router) { }
+  private authService = inject(AuthService);
+  private authStateService = inject(AuthStateService);
+  private userDataApiService = inject(UserDataApiService);
 
   ngOnInit(): void {
-    this.userDataApiService.saveUserData();
     this.userDataApiService.loadUserFromSession();
     this.userName$ = this.userDataApiService.userName$;
 
@@ -42,9 +40,12 @@ export class HeaderComponent implements OnInit {
   }
 
   exitClick() {
-    localStorage.removeItem('VXNlcklk')
-    sessionStorage.removeItem('user')
-    window.location.href = '/';
+    const confirmed = confirm("Вы уверены, что хотите выйти?");
+    if (confirmed) {
+      localStorage.removeItem('VXNlcklk');
+      sessionStorage.removeItem('user');
+      window.location.href = '/';
+    }
   }
 
 

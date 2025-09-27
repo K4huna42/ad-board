@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AdvertSearchRequestToDtoAdapter, ShortAdvertFromDTOAdapter } from '../../features/advert-list/adapters';
 import { AdvertsApiService } from '../../infrastructure/adverts/services/adverts.api.service';
 import { ShortAdvert } from '../../features/advert-list/domains/short-advert.interface';
@@ -13,19 +13,26 @@ export class AdvertService {
   responceAdvertId!: ShortAdvert;
 
   private responceAdvertSubject = new BehaviorSubject<ShortAdvert[]>([]);
-  private responceAdvertIdSubject = new BehaviorSubject<any>(null);
   responceAdvert$ = this.responceAdvertSubject.asObservable();
+
+  private responceAdvertIdSubject = new BehaviorSubject<unknown>(null);
   responceAdvertId$ = this.responceAdvertIdSubject.asObservable();
 
-  constructor(private advertApiService: AdvertsApiService) { }
+  private visibleSubject = new BehaviorSubject<boolean>(false);
+  visiblePopUp$ = this.visibleSubject.asObservable();
+  
+  private advertApiService = inject(AdvertsApiService); 
+  changeVisible(visible: boolean) {
+    this.visibleSubject.next(visible)
+  }
 
-  getAdverts(value: any): void {
+  getAdverts(value: Record<string, unknown>): void {
     const requestAdvert = AdvertSearchRequestToDtoAdapter(value)
 
     this.advertApiService.getAllAdverts(requestAdvert).subscribe(
       (value) => {
         const mapped = value.map(ShortAdvertFromDTOAdapter);
-        this.responceAdvertSubject.next(mapped); 
+        this.responceAdvertSubject.next(mapped);
       },
       (error) => {
         console.log(error.error.message)
@@ -33,11 +40,11 @@ export class AdvertService {
     )
   }
 
-  getAdvertByid(id: string): void{
+  getAdvertByid(id: string): void {
     this.advertApiService.getAdvertId(id).subscribe(
       (value) => {
         const adaptedValue = ShortAdvertFromDTOAdapter(value)
-        this.responceAdvertIdSubject.next(adaptedValue); 
+        this.responceAdvertIdSubject.next(adaptedValue);
       },
       (error) => {
         console.log(error.error.message)

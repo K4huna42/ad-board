@@ -1,7 +1,7 @@
 <div class="card">
-    <app-images [img_ids]="data.imagesIds"></app-images>
-    <p class="card__title">{{ data.name }}</p>
-    <p class="card__price">{{ data.cost }}$</p>
-    <p class="card__meta">{{ data.location }}</p>
-    <p class="card__meta">{{ data.createdAt | russianDate }}</p>
+    <app-images class = "card__img" [img_ids]="data.imagesIds"></app-images>
+    <p class="card__text__title">{{ data.name }}</p>
+    <p class="card__text__price">{{ data.cost }}$</p>
+    <p class="card__text__meta">{{ data.location }}</p>
+    <p class="card__text__meta">{{ data.createdAt | russianDate }}</p>
 </div>

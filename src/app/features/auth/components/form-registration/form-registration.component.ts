@@ -1,37 +1,73 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthApiService } from '../../../../infrastructure/authorization/auth.api.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthComponent } from '../../auth.component';
-import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
+import { Component, inject} from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-registration',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './form-registration.component.html',
   styleUrl: './form-registration.component.scss',
 })
-export class FormRegistrationComponent implements OnInit {
+export class FormRegistrationComponent {
 
   userProfileForm: FormGroup;
 
-  constructor(private authApiService: AuthApiService,
-    private fb: FormBuilder,
-    private authStateService: AuthStateService,
-    private authService: AuthService,
-    private router: Router) {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+
+  constructor() {
     this.userProfileForm = this.fb.group({
-      name: ['', Validators.required],
-      password: ['', Validators.required],
-      login: ['', Validators.required]
-    })
+      name: ['', [Validators.required]],
+      login: ['', [Validators.required, this.credentialsValidator()]],
+      password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: this.passwordsMatchValidator() 
+    });
   }
-  ngOnInit(): void {
+  
+  private passwordsMatchValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const password = group.get('password')?.value;
+      const confirmPassword = group.get('confirmPassword')?.value;
+
+      return password === confirmPassword ? null : { passwordsMismatch: true };
+    };
   }
 
-  registrationCall() {
-    this.authService.registration(this.userProfileForm.value)
+  private credentialsValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const errors: ValidationErrors = {};
+
+      if (value) {
+        const allowedChars = /^[A-Za-z0-9]*$/;
+        const hasSpaces = /\s/;
+
+        if (!allowedChars.test(value)) {
+          errors['englishLettersOnly'] = true;
+        }
+
+        if (hasSpaces.test(value)) {
+          errors['noSpacesAllowed'] = true;
+        }
+      }
+
+      return Object.keys(errors).length ? errors : null;
+    };
   }
+
+
+  registrationCall() {
+    const form = {
+      name: this.userProfileForm.get('name')?.value,
+      login: this.userProfileForm.get('login')?.value,
+      password: this.userProfileForm.get('password')?.value
+    };
+    this.authService.registration(form)
+  }
+
+
 }

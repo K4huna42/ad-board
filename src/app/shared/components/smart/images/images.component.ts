@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges,SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageService } from './services/images.service';
 
@@ -13,7 +13,7 @@ export class ImageComponent implements OnChanges {
   @Input() img_ids: string[] = [];
   imageUrls: string[] = [];
 
-  constructor(private imagesService:ImageService) { }
+  private imagesService = inject(ImageService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["img_ids"]) {

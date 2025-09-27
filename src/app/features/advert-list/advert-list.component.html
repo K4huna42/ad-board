@@ -3,7 +3,7 @@
         <h3 class="main__title">Рекомендации для вас</h3>
         <div class="main__cards">
             <a [routerLink]="['/advert-view', item.id]" *ngFor="let item of responceAdvert$ | async">
-                <app-advert [data]="item"></app-advert>
+                <app-advert class="main__img" [data]="item"></app-advert>
             </a>
         </div>
     </div>

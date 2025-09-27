@@ -6,8 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthStateService {
 
-  constructor() { }
-
   private visibleSubject = new BehaviorSubject<boolean>(false);
   visibleState$ = this.visibleSubject.asObservable();
 

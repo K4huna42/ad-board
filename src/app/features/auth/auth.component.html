@@ -1,5 +1,7 @@
-<div class="popup-overlay" *ngIf="visible" (click)="closePopUp()">
-    <div class="popup" (click)="$event.stopPropagation()">
+<div class="popup-overlay" *ngIf="visible" role="button" tabindex="0" (click)="closePopUp()"
+    (keydown.enter)="closePopUp()" (keydown.space)="closePopUp()">
+    <div class="popup" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
+        (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
         <app-form-registration *ngIf="showRegistration"></app-form-registration>
         <app-form-authorization *ngIf="!showRegistration"></app-form-authorization>
         <button (click)="toggleForm()" class="toggle-btn">

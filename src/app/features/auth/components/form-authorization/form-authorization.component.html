@@ -1,6 +1,19 @@
 <form [formGroup]="userProfileForm" (ngSubmit)="authorizationCall()">
     <h3 class="title">Авторизация</h3>
-    <input class="input" formControlName="login" placeholder="Логин">
-    <input class="input" formControlName="password" placeholder="Пароль">
-    <button class = "button" type="submit">Войти</button>
+    <input class="input" type="text" formControlName="login" placeholder="Логин">
+    <ul *ngIf="userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid" class="error-list">
+        <li *ngIf="userProfileForm.get('login')?.errors?.['required']">Поле обязательно</li>
+        <li *ngIf="userProfileForm.get('login')?.errors?.['englishLettersOnly']">Допустимы только английские буквы и
+            цифры</li>
+        <li *ngIf="userProfileForm.get('login')?.errors?.['noSpacesAllowed']">Пробелы недопустимы</li>
+    </ul>
+    <input class="input" type="password" formControlName="password" placeholder="Пароль">
+    <ul *ngIf="userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid" class="error-list">
+        <li *ngIf="userProfileForm.get('password')?.errors?.['required']">Поле обязательно</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['minlength']">Минимум 6 символов</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['englishLettersOnly']">Допустимы только английские буквы и
+            цифры</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['noSpacesAllowed']">Пробелы недопустимы</li>
+    </ul>
+    <button class="button" type="submit">Войти</button>
 </form>

@@ -1,32 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject} from '@angular/core';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/services/auth.service';
-import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
-import { AuthApiService } from '../../../../infrastructure/authorization/auth.api.service';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-form-authorization',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './form-authorization.component.html',
   styleUrl: './form-authorization.component.scss'
 })
-export class FormAuthorizationComponent implements OnInit {
+export class FormAuthorizationComponent {
 
   userProfileForm: FormGroup;
 
-  constructor(private authApiService: AuthApiService,
-    private fb: FormBuilder,
-    private authStateService: AuthStateService,
-    private authService: AuthService,
-    private router: Router) {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+
+  constructor() {
     this.userProfileForm = this.fb.group({
-      password: ['', Validators.required],
-      login: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
+      login: ['', [Validators.required, this.credentialsValidator()]]
     })
   }
 
-  ngOnInit(): void {
+  private credentialsValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const errors: ValidationErrors = {};
+
+      if (value) {
+        const allowedChars = /^[A-Za-z0-9]*$/;
+        const hasSpaces = /\s/;
+
+        if (!allowedChars.test(value)) {
+          errors['englishLettersOnly'] = true;
+        }
+
+        if (hasSpaces.test(value)) {
+          errors['noSpacesAllowed'] = true;
+        }
+      }
+
+      return Object.keys(errors).length ? errors : null;
+    };
   }
 
   authorizationCall(){

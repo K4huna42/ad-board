@@ -1,7 +1,32 @@
 <form [formGroup]="userProfileForm" (ngSubmit)="registrationCall()">
     <h3 class="title">Регистрация</h3>
-    <input class="input" formControlName="name" placeholder="Имя">
-    <input class="input" formControlName="login" placeholder="Логин">
-    <input class="input" formControlName="password" placeholder="Пароль">
-    <button class = "button" type="submit">Зарегистрироваться</button>
+    <input class="input" type="text" formControlName="name" placeholder="Имя">
+    <ul *ngIf="userProfileForm.get('name')?.touched && userProfileForm.get('name')?.invalid" class="error-list">
+        <li *ngIf="userProfileForm.get('name')?.errors?.['required']">Поле обязательно</li>
+    </ul>
+    <input class="input" type="text" formControlName="login" placeholder="Логин">
+    <ul *ngIf="userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid" class="error-list">
+        <li *ngIf="userProfileForm.get('login')?.errors?.['required']">Поле обязательно</li>
+        <li *ngIf="userProfileForm.get('login')?.errors?.['englishLettersOnly']">Допустимы только английские буквы и
+            цифры</li>
+        <li *ngIf="userProfileForm.get('login')?.errors?.['noSpacesAllowed']">Пробелы недопустимы</li>
+    </ul>
+    <input class="input" type="password" formControlName="password" placeholder="Пароль">
+    <ul *ngIf="userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid" class="error-list">
+        <li *ngIf="userProfileForm.get('password')?.errors?.['required']">Поле обязательно</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['minlength']">Минимум 6 символов</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['englishLettersOnly']">Допустимы только английские буквы и
+            цифры</li>
+        <li *ngIf="userProfileForm.get('password')?.errors?.['noSpacesAllowed']">Пробелы недопустимы</li>
+    </ul>
+    <input class="input" type="password" formControlName="confirmPassword" placeholder="Подтверждение пароля" />
+    <ul *ngIf="userProfileForm.get('confirmPassword')?.touched && userProfileForm.get('confirmPassword')?.invalid"
+        class="error-list">
+        <li *ngIf="userProfileForm.get('confirmPassword')?.errors?.['required']">Поле обязательно</li>
+    </ul>
+    <ul *ngIf="userProfileForm.errors?.['passwordsMismatch'] && userProfileForm.get('confirmPassword')?.touched"
+        class="error-list">
+        <li>Пароли не совпадают</li>
+    </ul>
+    <button class="button" type="submit">Зарегистрироваться</button>
 </form>
