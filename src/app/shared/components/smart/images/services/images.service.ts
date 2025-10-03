@@ -8,11 +8,12 @@ import { lastValueFrom } from 'rxjs';
 export class ImageService {
   private imagesApiService = inject(ImagesApiService);
 
-  async reciveImg(img_ids: string[] = [], imageUrls: string[] = []) {
+  async reciveImg(img_ids: string[] = []): Promise<string[]> {
+    const urls: string[] = [];
     for (const guid of img_ids) {
-      const value = await lastValueFrom(this.imagesApiService.getImage(guid));
-      const objectURL = URL.createObjectURL(value);
-      imageUrls.push(objectURL);
+      const blob = await lastValueFrom(this.imagesApiService.getImage(guid));
+      urls.push(URL.createObjectURL(blob));
     }
+    return urls;
   }
 }

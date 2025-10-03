@@ -10,13 +10,31 @@ import { ImageService } from './services/images.service';
 })
 export class ImageComponent implements OnChanges {
   @Input() img_ids: string[] = [];
+  @Input() showAll = false;
   imageUrls: string[] = [];
+  selectedImage: string | null = null;
 
   private imagesService = inject(ImageService);
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['img_ids']) {
-      this.imagesService.reciveImg(this.img_ids, this.imageUrls);
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (!changes['img_ids']) return;
+
+    this.imageUrls = [];
+    if (this.img_ids.length === 0) {
+      this.selectedImage = null;
+      return;
     }
+
+    const currentIds = [...this.img_ids];
+    const urls = await this.imagesService.reciveImg(currentIds);
+
+    if (this.img_ids.join(',') === currentIds.join(',')) {
+      this.imageUrls = urls;
+      this.selectedImage = urls[0] ?? null;
+    }
+  }
+
+  selectImage(url: string) {
+    this.selectedImage = url;
   }
 }

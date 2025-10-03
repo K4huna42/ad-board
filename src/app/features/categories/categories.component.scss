@@ -1,0 +1,43 @@
+.categories {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #3b82f6;
+}
+
+.categories li {
+  margin: 4px 0;
+}
+
+.categories .category {
+  cursor: pointer;
+  display: inline-block;
+  color: #3b82f6;
+  user-select: none;
+}
+
+.categories .category:hover,
+.categories .subcategory-item:hover {
+  text-decoration: underline;
+}
+
+.categories .selected {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.subcategory {
+  list-style: none;
+  padding-left: 20px; 
+  margin: 4px 0 0;
+}
+
+.subcategory-item {
+  cursor: pointer;
+  display: inline-block;
+  color: #3b82f6;
+}

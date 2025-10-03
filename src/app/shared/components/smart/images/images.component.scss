@@ -4,14 +4,47 @@
   height: 100%;
 }
 
-:host > div {
+:host>div {
   width: 100%;
   height: 100%;
 }
 
-.default_img, .none_img {
+.default_img,
+.none_img {
   width: 100%;
   height: 100%;
   object-fit: fill;
   display: block;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto; // вместо фиксированного 400px
+  max-height: 600px; // можно ограничить, если слишком большие
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+
+  img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: 0.2s;
+  }
+
+  img.active {
+    border-color: #007bff;
+  }
+
+  img:hover {
+    opacity: 0.8;
+  }
 }

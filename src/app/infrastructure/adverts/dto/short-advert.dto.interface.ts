@@ -6,5 +6,6 @@ export interface ShortAdvertDtoInterface {
   location?: string;
   createdAt: string;
   isActive: boolean;
+  phone:number;
   imagesIds: string[];
 }

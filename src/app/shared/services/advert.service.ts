@@ -17,7 +17,17 @@ export class AdvertService {
   private responceAdvertSubject = new BehaviorSubject<ShortAdvert[]>([]);
   responceAdvert$ = this.responceAdvertSubject.asObservable();
 
-  private responceAdvertIdSubject = new BehaviorSubject<unknown>(null);
+  private responceAdvertIdSubject = new BehaviorSubject<ShortAdvert>({
+    id: '',
+    name: '',
+    cost: 0,
+    location: '',
+    description: '',
+    createdAt: new Date().toISOString(),
+    isActive: false,
+    imagesIds: [],
+    phone: 0
+  });
   responceAdvertId$ = this.responceAdvertIdSubject.asObservable();
 
   private visibleSubject = new BehaviorSubject<boolean>(false);

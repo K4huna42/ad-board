@@ -53,7 +53,7 @@ export class FormRegistrationComponent {
       const errors: ValidationErrors = {};
 
       if (value) {
-        const allowedChars = /^[A-Za-z0-9]*$/;
+        const allowedChars = /^[A-Za-z0-9_]*$/;
         const hasSpaces = /\s/;
 
         if (!allowedChars.test(value)) {

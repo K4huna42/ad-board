@@ -3,6 +3,7 @@ export interface ShortAdvert {
   description: string;
   id: string;
   name: string;
+  phone: number;
   location?: string;
   createdAt: string;
   isActive: boolean;

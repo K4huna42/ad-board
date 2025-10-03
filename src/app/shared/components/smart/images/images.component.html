@@ -1,10 +1,21 @@
 <ng-container *ngIf="imageUrls.length > 0">
-    <div>
-        <img class = "default_img" [src]="imageUrls[0]" alt="image" />
+    <div *ngIf="!showAll">
+        <img class="default_img" [src]="imageUrls[0]" alt="image" />
+    </div>
+    <div *ngIf="showAll">
+        <div class="main-image">
+            <img [src]="selectedImage" alt="main" />
+        </div>
+
+        <div class="thumbnails">
+            <img *ngFor="let img of imageUrls" [src]="img" [class.active]="img === selectedImage"
+                (click)="selectImage(img)" alt="thumb" />
+        </div>
     </div>
 </ng-container>
+
 <ng-container *ngIf="imageUrls.length === 0">
     <div>
-        <img class = "none_img" src = "nan_img.jpg" alt=""/>
+        <img class="none_img" src="nan_img.jpg" alt="" />
     </div>
 </ng-container>

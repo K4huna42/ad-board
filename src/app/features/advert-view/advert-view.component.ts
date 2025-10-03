@@ -4,6 +4,7 @@ import { AdvertService } from '../../shared/services/advert.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ImageComponent } from '../../shared/components/smart/images/images.component';
+import { ShortAdvert } from '../advert-list/domains';
 
 @Component({
   selector: 'app-advert-view',
@@ -13,7 +14,7 @@ import { ImageComponent } from '../../shared/components/smart/images/images.comp
 })
 export class AdvertViewComponent implements OnInit {
   advertId = '';
-  responceAdvertId$!: Observable<unknown>;
+  responceAdvertId$!: Observable<ShortAdvert>;
   visible = false;
 
   private activatedRoute = inject(ActivatedRoute);

@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { UserDataApiService } from '../../../services/user-data-api.service';
 import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { CategoriesComponent } from '../../../../features/categories/categories.component';
+import { CategoriesService } from '../../../../features/categories/services/categories.service';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +21,7 @@ export class HeaderComponent implements OnInit {
   private authService = inject(AuthService);
   private authStateService = inject(AuthStateService);
   private userDataApiService = inject(UserDataApiService);
+  private categoriesService = inject(CategoriesService);
 
   ngOnInit(): void {
     this.userDataApiService.loadUserFromSession();
@@ -33,6 +36,10 @@ export class HeaderComponent implements OnInit {
       this.stateAuth = true;
     }
   }
+
+  openCategories() {
+  this.categoriesService.toggle();
+}
 
   openSign() {
     this.authService.changeVisible(true);

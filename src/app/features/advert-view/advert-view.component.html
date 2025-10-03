@@ -3,7 +3,7 @@
         <div class="left">
             <h1 class="name">{{ advert.name }}</h1>
             <div class="image">
-                <app-images [img_ids]="advert.imagesIds"></app-images>
+                <app-images [img_ids]="advert?.imagesIds || []" [showAll]="true"></app-images>
             </div>
         </div>
 
@@ -25,18 +25,21 @@
             <p class="description">{{ advert.description }}</p>
         </div>
     </div>
-</div>
 
-<div class="popup-overlay" *ngIf="visible" role="button" tabindex="0" (click)="closePopUp()"
-    (keydown.enter)="closePopUp()" (keydown.space)="closePopUp()">
-    <div class="popup" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
-        (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
-        <p class="user">Пользователь</p>
-        <p class="phone">+7 (978) 987-65-43</p>
-        <ul class="safety-rules">Правила безопасных сделок
-            <li>Храните в тайне почту, данные паспорта и код с карты</li>
-            <li>Игнорируйте ссылки на оплату, которые присылает собеседник</li>
-            <li>Никому не говорите коды из смс и пуш-уведомлений</li>
-        </ul>
+
+    <div class="popup-overlay" *ngIf="visible" role="button" tabindex="0" (click)="closePopUp()"
+        (keydown.enter)="closePopUp()" (keydown.space)="closePopUp()">
+        <div class="popup" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
+            (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
+            <p class="user">Пользователь</p>
+            <p class="phone">{{ advert.phone }}</p>
+            <ul class="safety-rules">Правила безопасных сделок
+                <li>Храните в тайне почту, данные паспорта и код с карты</li>
+                <li>Игнорируйте ссылки на оплату, которые присылает собеседник</li>
+                <li>Никому не говорите коды из смс и пуш-уведомлений</li>
+            </ul>
+        </div>
     </div>
+
+
 </div>
