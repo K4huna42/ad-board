@@ -1,15 +1,28 @@
 .input {
-    margin-top: 10px;
-    border-radius: 4px;
-    border: 1px;
     width: 368px;
-    height: 48px;
+    height: 44px;
+    padding: 0 12px;
+    margin-top: 10px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #fff;
+
+    font-family: var(--font-family);
+    font-size: 16px;
+    line-height: 140%;
+    color: #1e293b;
+
     outline: none;
-    border: 1px solid #4cafef;
-    box-shadow: 0 0 0 2px rgba(76, 175, 239, 0.2);
+    transition: border-color 0.2s ease;
 
     &::placeholder {
-        text-align: start;
+        color: #94a3b8;
+    }
+
+    &:focus {
+        border-color: #94a3b8;
+        box-shadow: none;
     }
 }
 
@@ -22,8 +35,10 @@
 }
 
 .button {
+    display: block;
+    margin: 10px auto 0;
+    /* auto по бокам — выровняет по центру */
     border: none;
-    margin-top: 10px;
     border-radius: 4px;
     padding: 12px 40px;
     width: 244px;

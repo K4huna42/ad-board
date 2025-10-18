@@ -3,7 +3,7 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
 import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
 import { CommonModule } from '@angular/common';
 import { UserDataApiService } from '../../../services/user-data-api.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CategoriesService } from '../../../../features/categories/services/categories.service';
 import { AdvertService } from '../../../services/advert.service';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
   private advertService = inject(AdvertService)
   private userDataApiService = inject(UserDataApiService);
   private breadcrumbsService = inject(BreadcrumbsService)
+  private router = inject(Router);
 
   userData = this.userDataApiService.userData;
   searchText: string = '';
@@ -54,6 +55,15 @@ export class HeaderComponent implements OnInit {
       localStorage.removeItem('VXNlcklk');
       sessionStorage.removeItem('user');
       window.location.href = '/';
+    }
+  }
+
+  newAdvertClick(){
+    if(this.stateAuth){
+      this.router.navigate(['/new-advert'])
+    }
+    else{
+      console.log("нужно зарегаться")
     }
   }
 

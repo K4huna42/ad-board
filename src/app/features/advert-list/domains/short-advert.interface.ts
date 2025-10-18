@@ -8,4 +8,8 @@ export interface ShortAdvert {
   createdAt: string;
   isActive: boolean;
   imagesIds: string[];
+  category:{
+    id:string
+    parentId:string
+  } 
 }

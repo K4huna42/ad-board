@@ -31,6 +31,10 @@ export class AdvertService {
     isActive: false,
     imagesIds: [],
     phone: 0,
+    category:{
+      id:'',
+      parentId:''
+    },
   });
 
   categories = this.categoriesService.categories;

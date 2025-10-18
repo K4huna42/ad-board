@@ -35,12 +35,25 @@
   border-radius: 4px;
 }
 
-.main-image img {
-  width: 100%;
-  height: auto;
-  max-height: 512px;
-  object-fit: contain;
+.main-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.15),
+      white 20%,
+      white 80%,
+      rgba(0, 0, 0, 0.15));
   border-radius: 8px;
+  padding: 8px;
+
+  img {
+    width: 100%;
+    height: auto;
+    max-height: 512px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
 }
 
 .thumbnails {
