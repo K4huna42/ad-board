@@ -11,6 +11,6 @@ export const ShortAdvertFromDTOAdapter = (data: ShortAdvertDtoInterface): ShortA
     location: data.location,
     name: data.name,
     cost: data.cost,
-    phone: data.phone
+    phone: data.phone,
   };
 };

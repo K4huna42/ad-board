@@ -1,0 +1,31 @@
+<li>
+    <span (click)="onCategoryClick(cat)" [class.selected]="isSelected(cat.id)" class="category">
+        @if(cat.hasChildren){
+        <span class="category-icon">
+            @if(!cat.expanded){
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M2.9 8.97C2.87 8.94 2.85 8.91 2.83 8.87C2.82 8.83 2.81 8.79 2.81 8.75C2.81 8.71 2.82 8.67 2.83 8.63C2.85 8.59 2.87 8.56 2.9 8.53L6.43 5L2.9 1.47C2.87 1.44 2.85 1.41 2.83 1.37C2.82 1.33 2.81 1.29 2.81 1.25C2.81 1.21 2.82 1.17 2.83 1.13C2.85 1.09 2.87 1.06 2.9 1.03C2.93 1 2.97 0.98 3.01 0.96C3.04 0.95 3.08 0.94 3.13 0.94C3.17 0.94 3.21 0.95 3.24 0.96C3.28 0.98 3.32 1 3.35 1.03L7.1 4.78C7.13 4.81 7.15 4.84 7.16 4.88C7.18 4.92 7.19 4.96 7.19 5C7.19 5.04 7.18 5.08 7.16 5.12C7.15 5.16 7.13 5.19 7.1 5.22L3.35 8.97C3.32 9 3.28 9.02 3.24 9.04C3.21 9.05 3.17 9.06 3.13 9.06C3.08 9.06 3.04 9.05 3.01 9.04C2.97 9.02 2.93 9 2.9 8.97Z"
+                    fill="currentColor" stroke="currentColor" stroke-width="0.7" />
+            </svg>
+            }
+            @if(cat.expanded){
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M1.03 2.9C1.06 2.87 1.09 2.85 1.13 2.83C1.17 2.82 1.21 2.81 1.25 2.81C1.29 2.81 1.33 2.82 1.37 2.83C1.41 2.85 1.44 2.87 1.47 2.9L5 6.43L8.53 2.9C8.56 2.87 8.59 2.85 8.63 2.83C8.67 2.82 8.71 2.81 8.75 2.81C8.79 2.81 8.83 2.82 8.87 2.83C8.91 2.85 8.94 2.87 8.97 2.9C9 2.93 9.02 2.97 9.04 3.01C9.05 3.04 9.06 3.08 9.06 3.13C9.06 3.17 9.05 3.21 9.04 3.24C9.02 3.28 9 3.32 8.97 3.35L5.22 7.1C5.19 7.13 5.16 7.15 5.12 7.16C5.08 7.18 5.04 7.19 5 7.19C4.96 7.19 4.92 7.18 4.88 7.16C4.84 7.15 4.81 7.13 4.78 7.1L1.03 3.35C1 3.32 0.98 3.28 0.96 3.24C0.95 3.21 0.94 3.17 0.94 3.13C0.94 3.08 0.95 3.04 0.96 3.01C0.98 2.97 1 2.93 1.03 2.9Z"
+                    fill="currentColor" stroke="currentColor" stroke-width="0.7" />
+            </svg>
+            }
+        </span>
+        }
+        {{ cat.name }}
+    </span>
+
+    @if(cat.expanded && cat.childs?.length){
+    <ul class="subcategory">
+        @for(child of cat.childs; track child.id){
+        <app-categories-item [cat]="child"></app-categories-item>
+        }
+    </ul>
+    }
+</li>

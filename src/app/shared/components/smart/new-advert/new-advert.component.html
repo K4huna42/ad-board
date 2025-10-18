@@ -1,0 +1,124 @@
+<div class="new_advert" [formGroup]="newAdvertForm">
+    <div class="new_advert_container">
+        <p class="new_advert_title">Новое объявление</p>
+
+        <!-- Категории -->
+        <p class="new_advert_text">Выберите категорию *</p>
+        <div class="dropdowns">
+            <!-- Первый dropdown -->
+            <div class="custom-select">
+                <select formControlName="categoryId" (change)="onRootCategorySelect($event)" [value]="selectedRootId() || ''">
+                    <option value="" disabled selected>Нажмите, чтобы выбрать</option>
+                    @for (cat of categories(); track cat.id) {
+                    <option [value]="cat.id">{{ cat.name }}</option>
+                    }
+                </select>
+                <svg class="select-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M11.9997 15.2502C11.9012 15.2506 11.8035 15.2314 11.7125 15.1936C11.6215 15.1558 11.5389 15.1003 11.4697 15.0302L6.46969 10.0302C6.36997 9.88426 6.32496 9.70784 6.34262 9.532C6.36028 9.35616 6.43946 9.1922 6.5662 9.06905C6.69295 8.94589 6.85911 8.87145 7.03538 8.85884C7.21165 8.84624 7.38672 8.89629 7.52969 9.00016L11.9997 13.4402L16.4697 9.00016C16.6106 8.90877 16.7782 8.86735 16.9455 8.88254C17.1128 8.89772 17.2702 8.96864 17.3924 9.08392C17.5146 9.1992 17.5945 9.35217 17.6194 9.5183C17.6443 9.68444 17.6127 9.85412 17.5297 10.0002L12.5297 15.0002C12.463 15.0757 12.3816 15.1369 12.2905 15.1799C12.1994 15.2228 12.1004 15.2468 11.9997 15.2502V15.2502Z"
+                        fill="currentColor" />
+                </svg>
+            </div>
+
+            <!-- Второй dropdown -->
+            @if (selectedRoot()?.childs?.length) {
+            <div class="custom-select">
+                <select formControlName="categoryId" (change)="onSubCategorySelect($event)"
+                    [value]="selectedSubId() || ''">
+                    <option value="" disabled selected>Нажмите, чтобы выбрать</option>
+                    @for (sub of selectedRoot()?.childs; track sub.id) {
+                    <option [value]="sub.id">{{ sub.name }}</option>
+                    }
+                </select>
+                <svg class="select-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M11.9997 15.2502C11.9012 15.2506 11.8035 15.2314 11.7125 15.1936C11.6215 15.1558 11.5389 15.1003 11.4697 15.0302L6.46969 10.0302C6.36997 9.88426 6.32496 9.70784 6.34262 9.532C6.36028 9.35616 6.43946 9.1922 6.5662 9.06905C6.69295 8.94589 6.85911 8.87145 7.03538 8.85884C7.21165 8.84624 7.38672 8.89629 7.52969 9.00016L11.9997 13.4402L16.4697 9.00016C16.6106 8.90877 16.7782 8.86735 16.9455 8.88254C17.1128 8.89772 17.2702 8.96864 17.3924 9.08392C17.5146 9.1992 17.5945 9.35217 17.6194 9.5183C17.6443 9.68444 17.6127 9.85412 17.5297 10.0002L12.5297 15.0002C12.463 15.0757 12.3816 15.1369 12.2905 15.1799C12.1994 15.2228 12.1004 15.2468 11.9997 15.2502V15.2502Z"
+                        fill="currentColor" />
+                </svg>
+            </div>
+            }
+        </div>
+
+        <!-- Название -->
+        <div>
+            <p class="new_advert_text">Название объявления *</p>
+            <input type="text" class="new_advert_input-text" formControlName="name" placeholder="Что хотите продать?" />
+        </div>
+
+        <!-- Описание -->
+        <div>
+            <p class="new_advert_text">Описание</p>
+            <textarea class="new_advert_input-description" id="description" name="description" rows="4"
+                formControlName="description" placeholder="расскажите о товаре или услуге"></textarea>
+        </div>
+
+        <!-- Адрес -->
+        <div>
+            <p class="new_advert_text">Адрес (место проведения сделки) *</p>
+            <div class="autocomplete">
+                <input type="text" formControlName="location" (input)="sendCity($event)"
+                    placeholder="начните вводить адрес" class="autocomplete__input" />
+
+                <ul *ngIf="items?.length" class="autocomplete__list">
+                    <li *ngFor="let item of items" (click)="selectCity(item)" class="autocomplete__item">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Изображения -->
+        <div class="upload">
+            <div class="upload__header">
+                <label class="upload__button">
+                    <input type="file" multiple accept="image/jpeg, image/png, image/heic"
+                        (change)="onFilesSelected($event)" />
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M5.62793 11.25C6.12521 11.25 6.60212 11.0525 6.95375 10.7008C7.30539 10.3492 7.50293 9.87228 7.50293 9.375C7.50293 8.87772 7.30539 8.40081 6.95375 8.04917C6.60212 7.69754 6.12521 7.5 5.62793 7.5C5.13065 7.5 4.65373 7.69754 4.3021 8.04917C3.95047 8.40081 3.75293 8.87772 3.75293 9.375C3.75293 9.87228 3.95047 10.3492 4.3021 10.7008C4.65373 11.0525 5.13065 11.25 5.62793 11.25V11.25Z"
+                            fill="currentColor" />
+                        <path
+                            d="M17.5029 16.25C17.5029 16.913 17.2395 17.5489 16.7707 18.0178C16.3019 18.4866 15.666 18.75 15.0029 18.75H2.50293C1.83989 18.75 1.204 18.4866 0.735163 18.0178C0.266322 17.5489 0.00292969 16.913 0.00292969 16.25V6.25C0.00292936 5.58739 0.265978 4.95189 0.734279 4.48312C1.20258 4.01435 1.83782 3.75066 2.50043 3.75C2.50043 3.08696 2.76382 2.45107 3.23266 1.98223C3.7015 1.51339 4.33739 1.25 5.00043 1.25H17.5004C18.1635 1.25 18.7994 1.51339 19.2682 1.98223C19.737 2.45107 20.0004 3.08696 20.0004 3.75V13.75C20.0004 14.4126 19.7374 15.0481 19.2691 15.5169C18.8008 15.9857 18.1655 16.2493 17.5029 16.25ZM17.5004 2.5H5.00043C4.66891 2.5 4.35097 2.6317 4.11655 2.86612C3.88213 3.10054 3.75043 3.41848 3.75043 3.75H15.0029C15.666 3.75 16.3019 4.01339 16.7707 4.48223C17.2395 4.95107 17.5029 5.58696 17.5029 6.25V15C17.834 14.9993 18.1513 14.8673 18.3852 14.633C18.6191 14.3987 18.7504 14.0811 18.7504 13.75V3.75C18.7504 3.41848 18.6187 3.10054 18.3843 2.86612C18.1499 2.6317 17.832 2.5 17.5004 2.5V2.5ZM2.50293 5C2.17141 5 1.85347 5.1317 1.61905 5.36612C1.38463 5.60054 1.25293 5.91848 1.25293 6.25V16.25L4.56043 13.3075C4.6626 13.2057 4.79682 13.1424 4.94035 13.1283C5.08388 13.1141 5.22788 13.1501 5.34793 13.23L8.67293 15.4463L13.3104 10.8088C13.4031 10.716 13.5227 10.6547 13.6521 10.6336C13.7815 10.6125 13.9143 10.6327 14.0317 10.6913L16.2529 13.125V6.25C16.2529 5.91848 16.1212 5.60054 15.8868 5.36612C15.6524 5.1317 15.3345 5 15.0029 5H2.50293V5Z"
+                            fill="currentColor" />
+                    </svg>
+                    Добавить картинки
+                </label>
+                <p class="upload__info">Максимум 10 картинок в формате jpeg, png или heic</p>
+            </div>
+
+            <div class="upload__list">
+                <div class="upload__item" *ngFor="let img of images; let i = index">
+                    <img [src]="img.url" alt="preview" class="upload__preview" />
+                    <div class="upload__details">
+                        <p class="upload__name">{{ img.file.name }}</p>
+                        <p class="upload__size">{{ getFileSize(img.file.size) }}</p>
+                    </div>
+                    <button class="upload__remove" (click)="removeImage(i)">×</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Цена -->
+        <div>
+            <p class="new_advert_text">Цена *</p>
+            <input type="number" class="new_advert_input-text" formControlName="cost" placeholder="0 ₽" />
+        </div>
+
+        <!-- Телефон -->
+        <div>
+            <p class="new_advert_text">Телефон *</p>
+            <input type="text" class="new_advert_input-text" formControlName="phone" placeholder="+7 777 7777" />
+        </div>
+
+        <!-- Email -->
+        <div>
+            <p class="new_advert_text">Email *</p>
+            <input type="email" class="new_advert_input-text" formControlName="email" placeholder="example@mail.com" />
+        </div>
+
+        <!-- Кнопка -->
+        <button class="new_advert_button-add" (click)="sendAdvert()">Разместить объявление</button>
+    </div>
+</div>

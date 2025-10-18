@@ -1,1 +1,86 @@
-<p>settings works!</p>
+<div class="settings">
+  <div class="settings__container">
+    <h2 class="settings__title">Настройки</h2>
+
+    <form class="settings__form" [formGroup]="settingsProfileForm">
+
+      <label class="settings__label">
+        Имя
+        <input class="settings__input" type="text" formControlName="name" placeholder="Введите имя"/>
+      </label>
+
+      @if(settingsProfileForm.get('name')?.touched && settingsProfileForm.get('name')?.invalid){
+      <ul class="error-list">
+        @if(settingsProfileForm.get('name')?.errors?.['required']) {
+        <li>Поле обязательно</li>
+        }
+      </ul>
+      }
+
+      <label class="settings__label">
+        Логин
+        <input class="settings__input" type="text" formControlName="login" placeholder="Введите логин"/>
+      </label>
+
+      @if(settingsProfileForm.get('login')?.touched && settingsProfileForm.get('login')?.invalid){
+      <ul class="error-list">
+        @if(settingsProfileForm.get('login')?.errors?.['required']) {
+        <li>Поле обязательно</li>
+        }
+        @if(settingsProfileForm.get('login')?.errors?.['englishLettersOnly']) {
+        <li>Допустимы только английские буквы и цифры</li>
+        }
+        @if(settingsProfileForm.get('login')?.errors?.['noSpacesAllowed']) {
+        <li>Пробелы недопустимы</li>
+        }
+      </ul>
+      }
+
+      <label class="settings__label">
+        Новый пароль
+        <input class="settings__input" type="password" formControlName="password" placeholder="Введите новый пароль" />
+      </label>
+
+      @if(settingsProfileForm.get('password')?.touched && settingsProfileForm.get('password')?.invalid){
+      <ul class="error-list">
+        @if(settingsProfileForm.get('password')?.errors?.['required']) {
+        <li>Поле обязательно</li>
+        }
+        @if(settingsProfileForm.get('password')?.errors?.['minlength']) {
+        <li>Минимум 8 символов</li>
+        }
+        @if(settingsProfileForm.get('password')?.errors?.['englishLettersOnly']) {
+        <li>Допустимы только английские буквы и цифры</li>
+        }
+        @if(settingsProfileForm.get('password')?.errors?.['noSpacesAllowed']) {
+        <li>Пробелы недопустимы</li>
+        }
+      </ul>
+      }
+
+      <label class="settings__label">
+        Подтверждение нового пароля
+        <input class="settings__input" type="password" formControlName="confirmPassword"
+          placeholder="подтверждение пароля" />
+      </label>
+
+      @if(settingsProfileForm.get('confirmPassword')?.touched && settingsProfileForm.get('confirmPassword')?.invalid){
+      <ul class="error-list">
+        @if(settingsProfileForm.get('confirmPassword')?.errors?.['required']) {
+        <li>Поле обязательно</li>
+        }
+      </ul>
+      }
+
+      @if(settingsProfileForm.errors?.['passwordsMismatch'] && settingsProfileForm.get('confirmPassword')?.touched){
+      <ul class="error-list">
+        <li>Пароли не совпадают</li>
+      </ul>
+      }
+
+      <button type="submit" class="settings__button" [class.active]="settingsProfileForm.valid"
+        [disabled]="!settingsProfileForm.valid" (click)="putData()">Сохранить</button>
+
+    </form>
+  </div>
+</div>

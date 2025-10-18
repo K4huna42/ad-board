@@ -3,43 +3,46 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
 import { AuthStateService } from '../../../../core/auth/services/auth.state.service';
 import { CommonModule } from '@angular/common';
 import { UserDataApiService } from '../../../services/user-data-api.service';
-import { Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { CategoriesComponent } from '../../../../features/categories/categories.component';
 import { CategoriesService } from '../../../../features/categories/services/categories.service';
+import { AdvertService } from '../../../services/advert.service';
+import { FormsModule } from '@angular/forms';
+import { BreadcrumbsService } from '../breadcrumbs/services/breadcrumbs.service';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  stateAuth = false;
-  userName$!: Observable<string | null>;
 
   private authService = inject(AuthService);
   private authStateService = inject(AuthStateService);
-  private userDataApiService = inject(UserDataApiService);
   private categoriesService = inject(CategoriesService);
+  private advertService = inject(AdvertService)
+  private userDataApiService = inject(UserDataApiService);
+  private breadcrumbsService = inject(BreadcrumbsService)
+
+  userData = this.userDataApiService.userData;
+  searchText: string = '';
+
+  get stateAuth() {
+    return this.authStateService.visibleState();
+  }
 
   ngOnInit(): void {
     this.userDataApiService.loadUserFromSession();
-    this.userName$ = this.userDataApiService.userName$;
 
-    this.authStateService.visibleState$.subscribe((value: boolean) => {
-      this.stateAuth = value;
-    });
-
-    const item = localStorage.getItem('VXNlcklk');
+    const item = sessionStorage.getItem('user');
     if (item) {
-      this.stateAuth = true;
+      this.authStateService.changeVisible(true);
     }
   }
 
   openCategories() {
-  this.categoriesService.toggle();
-}
+    this.categoriesService.toggle();
+  }
 
   openSign() {
     this.authService.changeVisible(true);
@@ -52,5 +55,24 @@ export class HeaderComponent implements OnInit {
       sessionStorage.removeItem('user');
       window.location.href = '/';
     }
+  }
+
+  async onSearch() {
+    const selectedCategory = this.categoriesService.selectedCategoryId();
+
+    console.log('📂 selectedCategoryId():', this.categoriesService.selectedCategoryId());
+    console.log('📋 Все категории:', this.categoriesService.categories());
+
+    if (selectedCategory && selectedCategory !== '00000000-0000-0000-0000-000000000000') {
+      await this.categoriesService.setBreadcrumbByCategoryId(selectedCategory);
+    } else {
+      this.breadcrumbsService.clear();
+    }
+
+    this.advertService.getAdverts({
+      search: this.searchText,
+      showNonActive: true,
+      category: selectedCategory,
+    });
   }
 }

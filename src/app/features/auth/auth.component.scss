@@ -41,3 +41,18 @@
     align-self: flex-start;
     margin-top: 10px;
 }
+
+.auth-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e6ffed;
+  color: #065f46;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation: fadeIn 0.3s ease;
+}

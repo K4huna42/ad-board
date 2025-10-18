@@ -1,0 +1,99 @@
+.settings {
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+        max-width: 1296px;
+        padding: 0 16px;
+        margin: 0 auto;
+    }
+
+    &__title {
+        margin-top: 32px;
+        font-family: var(--font-family);
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 133%;
+        color: #1e293b;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+        max-width: 480px;
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        color: #1e293b;
+        width: 100%;
+    }
+
+    &__input {
+        border-radius: 4px;
+        width: 100%;
+        height: 48px;
+        outline: none;
+        border: 1px solid #4cafef;
+        box-shadow: 0 0 0 2px rgba(76, 175, 239, 0.2);
+        padding: 0 12px;
+        box-sizing: border-box;
+    }
+
+    &__button {
+        border-radius: 4px;
+        padding: 12px 24px;
+        width: 132px;
+        height: 48px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #3b82f6;
+        opacity: 0.6;
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        color: #fff;
+        transition: opacity 0.2s ease, transform 0.1s ease;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        &.active {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+    }
+
+    &__button--change {
+        border-radius: 4px;
+        padding: 12px 24px;
+        width: 186px;
+        height: 48px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #3b82f6;
+        opacity: 0.6;
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        color: #fff;
+    }
+}

@@ -1,0 +1,23 @@
+.category {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+        background-color: #f1f5f9; // лёгкий hover
+    }
+
+    &.selected {
+        background-color: #3b82f6; // синий фон
+        color: white;
+        font-weight: 600;
+
+        svg path {
+            fill: white;
+            stroke: white;
+        }
+    }
+}

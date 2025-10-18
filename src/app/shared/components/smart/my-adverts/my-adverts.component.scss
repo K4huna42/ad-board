@@ -1,0 +1,157 @@
+.my_adverts {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1296px;
+    margin: 0 auto;
+    padding: 0 16px;
+    background: #fff;
+
+    &__title {
+        margin-top: 32px;
+        font-family: var(--font-family);
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 133%;
+        color: #1e293b;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 24px;
+    }
+
+    &__cards {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(4, 1fr);
+
+        /* Кнопка «Новое объявление» */
+        .my_adverts__button-new-advert {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 336px;
+            border-radius: 4px;
+            background: rgba(59, 130, 246, 0.04);
+            border: 3px dashed rgba(59, 130, 246, 0.16);
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 133%;
+            gap: 16px;
+
+            svg {
+                width: 60px;
+                height: 60px;
+            }
+
+            &:hover {
+                background: rgba(59, 130, 246, 0.08);
+                border-color: rgba(59, 130, 246, 0.3);
+            }
+        }
+
+        /* Ссылки с карточками объявлений */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        app-advert {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.advert-wrapper {
+    position: relative;
+}
+
+.advert-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    &:hover {
+        background: white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+        svg path {
+            stroke: #007bff;
+        }
+    }
+}
+
+.my_adverts__button-new-advert {
+
+
+    &:hover {
+        background: #2563eb;
+    }
+
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    /* чуть левее кнопки редактирования */
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    &:hover {
+        background: white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+        svg path {
+            stroke: #ef4444;
+            /* красный при наведении */
+        }
+    }
+}

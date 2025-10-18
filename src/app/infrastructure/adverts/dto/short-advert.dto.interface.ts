@@ -8,4 +8,9 @@ export interface ShortAdvertDtoInterface {
   isActive: boolean;
   phone:number;
   imagesIds: string[];
+  category: {
+    id:string
+    parentId:string
+  }
+  email:string;
 }

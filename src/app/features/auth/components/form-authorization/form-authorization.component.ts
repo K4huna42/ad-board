@@ -25,7 +25,7 @@ export class FormAuthorizationComponent {
 
   constructor() {
     this.userProfileForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
+      password: ['', [Validators.required, Validators.minLength(8), this.credentialsValidator()]],
       login: ['', [Validators.required, this.credentialsValidator()]],
     });
   }

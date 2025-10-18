@@ -1,33 +1,19 @@
-<!-- <div class="main">
-    <div class="main__container container">
-        <h3 class="main__title">Рекомендации для вас</h3>
-        
-        <div class="main__cards">
-            <app-categories></app-categories>
-            <a [routerLink]="['/advert-view', item.id]" *ngFor="let item of responceAdvert$ | async">
-                <app-advert class="main__img" [data]="item"></app-advert>
-            </a>
-        </div>
-    </div>
-</div> -->
-
 <div class="main">
   <div class="main__container container">
     <h3 class="main__title">Рекомендации для вас</h3>
 
     <div class="main__content">
-      <aside class="main__sidebar" *ngIf="showCategories">
-        <app-categories></app-categories>
-      </aside>
-
-      <section 
-        class="main__cards" 
-        [class.with-categories]="showCategories">
-        
-        <a [routerLink]="['/advert-view', item.id]" 
-           *ngFor="let item of responceAdvert$ | async">
+      @if(showCategories){
+        <aside class="main__sidebar">
+          <app-categories></app-categories>
+        </aside>
+      }
+      <section class="main__cards" [class.with-categories]="showCategories">
+        @for (item of responceAdvert(); track item.id) {
+        <a [routerLink]="['/advert-view', item.id]">
           <app-advert class="main__img" [data]="item"></app-advert>
         </a>
+        }
       </section>
     </div>
   </div>

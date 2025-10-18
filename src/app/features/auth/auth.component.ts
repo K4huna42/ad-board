@@ -16,17 +16,11 @@ import { FormAuthorizationComponent } from './components/form-authorization/form
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent{
+  public authService = inject(AuthService);
+
   showRegistration = true;
-  visible = false;
-
-  private authService = inject(AuthService);
-
-  ngOnInit(): void {
-    this.authService.visiblePopUp$.subscribe((value: boolean) => {
-      this.visible = value;
-    });
-  }
+  successMessage = this.authService.successMessage
 
   closePopUp() {
     this.authService.changeVisible(false);

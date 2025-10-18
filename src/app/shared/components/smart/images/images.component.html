@@ -1,21 +1,25 @@
-<ng-container *ngIf="imageUrls.length > 0">
-    <div *ngIf="!showAll">
-        <img class="default_img" [src]="imageUrls[0]" alt="image" />
-    </div>
-    <div *ngIf="showAll">
+@if(imageUrls.length > 0){
+    @if(!showAll){
+        <div class="image-wrapper">
+            <img class="default_img" [src]="imageUrls[0]" alt="image" />
+        </div>
+        
+    }
+    @if(showAll){
         <div class="main-image">
             <img [src]="selectedImage" alt="main" />
         </div>
 
         <div class="thumbnails">
-            <img *ngFor="let img of imageUrls" [src]="img" [class.active]="img === selectedImage"
-                (click)="selectImage(img)" alt="thumb" />
+            @for(img of imageUrls; track $index){
+                <img [src]="img" [class.active]="img === selectedImage" (click)="selectImage(img)" alt="thumb" />
+                <!-- class.active использует scss класс при каком-либо условии -->
+            }
         </div>
-    </div>
-</ng-container>
-
-<ng-container *ngIf="imageUrls.length === 0">
-    <div>
+    }
+}
+@if(imageUrls.length === 0){
+    <div class="image-wrapper">
         <img class="none_img" src="nan_img.jpg" alt="" />
     </div>
-</ng-container>
+}

@@ -9,11 +9,14 @@ export class ImageService {
   private imagesApiService = inject(ImagesApiService);
 
   async reciveImg(img_ids: string[] = []): Promise<string[]> {
-    const urls: string[] = [];
-    for (const guid of img_ids) {
-      const blob = await lastValueFrom(this.imagesApiService.getImage(guid));
-      urls.push(URL.createObjectURL(blob));
-    }
-    return urls;
+    const blobs = await Promise.all( 
+      // Ждёт выполнения всех промисов параллельно и возвращает массив результатов.
+
+      img_ids.map(id => lastValueFrom(this.imagesApiService.getImage(id)))
+      // Преобразуем каждый id в картинку, а LastValueFrom преобразует Observable в обычный Promise 
+
+    );
+    return blobs.map(blob => URL.createObjectURL(blob));
+    // создаем временные ссылки на файлы, который потом монжно использовать в src, и возвращаем их массив
   }
 }

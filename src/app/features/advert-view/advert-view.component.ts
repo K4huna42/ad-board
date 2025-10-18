@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdvertService } from '../../shared/services/advert.service';
 import { Observable } from 'rxjs';
@@ -14,18 +14,23 @@ import { ShortAdvert } from '../advert-list/domains';
 })
 export class AdvertViewComponent implements OnInit {
   advertId = '';
-  responceAdvertId$!: Observable<ShortAdvert>;
   visible = false;
 
   private activatedRoute = inject(ActivatedRoute);
   private advertService = inject(AdvertService);
 
-  ngOnInit(): void {
-    this.responceAdvertId$ = this.advertService.responceAdvertId$;
-    this.advertId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
-    this.advertService.visiblePopUp$.subscribe((value: boolean) => {
-      this.visible = value;
+  responceAdvertId = this.advertService.responceAdvertId;
+
+  constructor(){
+    effect(() => {
+      this.visible = this.advertService.visibleAdvertPopUp();
     });
+
+    
+  }
+
+  ngOnInit(): void {
+    this.advertId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
     this.showAdvert();
   }
 

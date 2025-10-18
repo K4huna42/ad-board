@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthStateService {
-  private visibleSubject = new BehaviorSubject<boolean>(false);
-  visibleState$ = this.visibleSubject.asObservable();
+  private visibleSignal = signal<boolean>(false);
+
+   visibleState = this.visibleSignal.asReadonly();
 
   changeVisible(visible: boolean) {
-    this.visibleSubject.next(visible);
+    this.visibleSignal.set(visible);
   }
 }

@@ -29,7 +29,7 @@ export class FormRegistrationComponent {
       {
         name: ['', [Validators.required]],
         login: ['', [Validators.required, this.credentialsValidator()]],
-        password: ['', [Validators.required, Validators.minLength(6), this.credentialsValidator()]],
+        password: ['', [Validators.required, Validators.minLength(8), this.credentialsValidator()]],
         confirmPassword: ['', [Validators.required]],
       },
       {

@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { AdvertComponent } from '../advert/advert.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ShortAdvert } from './domains';
 import { AdvertService } from '../../shared/services/advert.service';
-import { Observable } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CategoriesComponent } from '../categories/categories.component';
 import { CategoriesService } from '../categories/services/categories.service';
 
@@ -18,12 +16,15 @@ import { CategoriesService } from '../categories/services/categories.service';
 })
 export class AdvertListComponent implements OnInit {
   advertForm: FormGroup;
-  responceAdvert$!: Observable<ShortAdvert[]>;
+
   showCategories = false;
 
+  private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private advertService = inject(AdvertService);
   private categoriesService = inject(CategoriesService);
+
+  responceAdvert = this.advertService.responceAdvert;
 
   constructor() {
     this.advertForm = this.fb.group({
@@ -31,14 +32,35 @@ export class AdvertListComponent implements OnInit {
       showNonActive: true,
       category: null,
     });
+
+    effect(() => {
+      this.showCategories = this.categoriesService.open();
+    });
+
+    effect(() => {
+      const selected = this.categoriesService.selectedCategoryId();
+      this.advertForm.patchValue({ category: selected });
+    });
   }
 
   ngOnInit(): void {
-    this.responceAdvert$ = this.advertService.responceAdvert$;
-    this.advertService.getAdverts(this.advertForm.value);
+    this.route.paramMap.subscribe(async (params) => {
+      const categoryId = params.get('id');
 
-    this.categoriesService.open$.subscribe(state => {
-    this.showCategories = state;
-  });
+      if (categoryId) {
+        // ✅ Добавляем хлебную крошку категории
+        await this.categoriesService.setBreadcrumbByCategoryId(categoryId);
+
+        // ✅ Обновляем форму и фильтруем объявления по категории
+        this.advertForm.patchValue({ category: categoryId });
+      } else {
+        // ✅ Очищаем хлебные крошки и фильтр по категории
+        this.categoriesService['breadcrumbsService'].clear();
+        this.advertForm.patchValue({ category: null });
+      }
+
+      // ✅ Теперь, после обновления формы, вызываем запрос
+      this.advertService.getAdverts(this.advertForm.value);
+    });
   }
 }
