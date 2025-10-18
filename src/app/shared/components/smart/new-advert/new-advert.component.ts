@@ -80,9 +80,17 @@ export class NewAdvertComponent {
 
     const files = Array.from(input.files);
 
-    for (const file of files) {
-      if (this.images.length >= 10) break;
+    // 1️⃣ Проверяем, сколько файлов уже есть
+    const availableSlots = 10 - this.images.length;
+    if (availableSlots <= 0) {
+      input.value = '';
+      return; // Уже 10, больше не добавляем
+    }
 
+    // 2️⃣ Берем только нужное количество файлов
+    const filesToAdd = files.slice(0, availableSlots);
+
+    for (const file of filesToAdd) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.images.push({ file, url: e.target.result });
@@ -90,6 +98,7 @@ export class NewAdvertComponent {
       reader.readAsDataURL(file);
     }
 
+    // 3️⃣ Сбрасываем input
     input.value = '';
   }
 
