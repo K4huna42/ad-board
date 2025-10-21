@@ -1,0 +1,21 @@
+@if (toast.message()) {
+  <div class="message" [ngClass]="toast.type()">
+    <div class="message_content">
+      <div class="message_icon">
+        @switch (toast.type()) {
+          @case ('success') { ✓ }
+          @case ('error') { ✖ }
+        }
+      </div>
+
+      <div class="message_text">
+        <p class="message_title">
+          {{ toast.type() | titlecase }}
+        </p>
+        <p class="message_description">{{ toast.message() }}</p>
+      </div>
+
+      <button class="message_close" (click)="clear()">×</button>
+    </div>
+  </div>
+}

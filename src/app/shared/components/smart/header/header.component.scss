@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    z-index: 1000;   
 
-    &__top {
+    &_top {
         background: #1e293b;
         height: 52px;
         display: flex;
@@ -11,19 +12,19 @@
         align-items: center;
     }
 
-    &__bottom {
+    &_bottom {
         height: 84px;
         border-bottom: 1px solid #e2e8f0;
         display: flex;
         justify-content: center;
         align-items: center;
 
-        .header__container {
+        .header_container {
             justify-content: flex-start;
         }
     }
 
-    &__container {
+    &_container {
         display: flex;
         width: 100%;
         max-width: 1296px;
@@ -31,63 +32,97 @@
         padding: 0 16px;
         align-items: center;
         justify-content: end;
+        box-sizing: border-box;
     }
 
-    &__button {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        border: none;
-        border-radius: 4px;
+    &_title {
         font-family: var(--font-family);
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 120%;
+        color: #1e293b;
+        margin-right: 24px;
+    }
+}
+
+/* ======= Кнопки ======= */
+.button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 143%;
+    transition: filter 0.3s ease;
+    cursor: pointer;
+
+    &-enter {
+        background: transparent;
+        color: #fff;
+        padding: 8px 0;
+        height: 36px;
+        margin-right: 24px;
+
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
+
+    &-user {
+        background: transparent;
+        color: #fff;
+        padding: 8px 0;
+        height: 36px;
+        margin-right: 24px;
+
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
+
+    &-new-ad {
+        background: #3b82f6;
+        color: #fff;
+        padding: 6px 12px;
+        height: 32px;
+        font-weight: 500;
+
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
+}
+
+/* ======= Выпадающее меню ======= */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1000;   
+
+    &:hover .dropdown_content {
+        display: block;
+    }
+
+    &_content {
+        font-family: var(--font-family);
+        font-weight: 400;
         font-size: 14px;
         line-height: 143%;
-        transition: filter 0.3s ease;
+        color: #fff;
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        min-width: 160px;
+        padding: 5px 0;
 
-        &--enter {
-            background: transparent;
-            color: #fff;
-            padding: 8px 0;
-            height: 36px;
-            margin-right: 24px;
-            transition: filter 0.3s ease;
-
-            &:hover {
-                filter: brightness(0.8);
-            }
-        }
-
-        &--new-ad {
-            background: #3b82f6;
-            color: #fff;
-            padding: 6px 12px;
-            height: 32px;
-            font-weight: 500;
-        }
-
-        &--dropdown {
-            position: relative;
-            display: inline-block;
-
-            &:hover .header__button--dropdown-content {
-                display: block;
-            }
-        }
-
-        &--dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            min-width: 160px;
-            padding: 5px 0;
-        }
-
-        &--dropdown-content a,
-        &--dropdown-content button {
+        a,
+        button {
             display: block;
             text-align: left;
             padding: 10px 14px;
@@ -102,51 +137,43 @@
                 background: #f5f5f5;
             }
         }
-
-        &--dropdown-content button{
-            width: 100%;
-            color: red;
-        }
-
     }
 
-    &__title {
-        font-family: var(--font-family);
-        font-weight: 700;
-        font-size: 30px;
-        line-height: 120%;
-        color: #1e293b;
-        margin-right: 24px;
-    }
-
-    &__categories {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: 1px solid #3b82f6;
-        background: transparent;
-        border-radius: 4px;
-        padding: 8px 12px;
-        width: 152px;
-        height: 36px;
-        color: #3b82f6;
-        font-size: 14px;
-        font-weight: 500;
-        margin-right: 12px;
-        transition: filter 0.3s ease;
-
-        &:hover {
-            filter: brightness(0.8);
-        }
-    }
-
-    &__search-wrapper {
-        display: flex;
+    &_exit {
         width: 100%;
-        max-width: 734px;
+        color: red !important;
     }
+}
 
-    &__search-input {
+/* ======= Категории ======= */
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #3b82f6;
+    background: transparent;
+    border-radius: 4px;
+    padding: 8px 12px;
+    width: 152px;
+    height: 36px;
+    color: #3b82f6;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 12px;
+    transition: filter 0.3s ease;
+
+    &:hover {
+        filter: brightness(0.8);
+    }
+}
+
+/* ======= Поиск ======= */
+.search {
+    display: flex;
+    width: 100%;
+    max-width: 734px;
+
+    &_input {
         border: 1px solid #cbd5e1;
         border-radius: 4px 0 0 4px;
         padding-left: 10px;
@@ -162,7 +189,7 @@
         }
     }
 
-    &__search-button {
+    &_button {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -175,7 +202,6 @@
         color: #fff;
         font-weight: 500;
         font-size: 14px;
-        transition: filter 0.3s ease;
 
         &:hover {
             filter: brightness(0.8);
@@ -183,14 +209,15 @@
     }
 }
 
+/* ======= Адаптив ======= */
 @media (max-width: 748px) {
     .header {
-        &__bottom {
+        &_bottom {
             height: auto;
             padding: 8px 0;
         }
 
-        &__bottom &__container {
+        &_bottom &_container {
             flex-direction: column;
             align-items: flex-start;
             gap: 12px;

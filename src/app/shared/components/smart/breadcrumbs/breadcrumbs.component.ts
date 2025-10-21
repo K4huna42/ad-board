@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class BreadcrumbsComponent implements OnInit {
   private router = inject(Router);
-  public breadcrumbsService = inject(BreadcrumbsService)
+  public breadcrumbsService = inject(BreadcrumbsService);
 
   public showBreadcrumbs = signal(false);
 
@@ -26,9 +26,7 @@ export class BreadcrumbsComponent implements OnInit {
         const url = event.urlAfterRedirects;
 
         // показываем хлебные крошки только на страницах, где они нужны
-        this.showBreadcrumbs.set(
-          url.includes('advert-view') || url.includes('my-adverts')
-        );
+        this.showBreadcrumbs.set(url.includes('advert-view') || url.includes('my-adverts'));
 
         if (!this.showBreadcrumbs()) {
           this.mergedBreadcrumbs = [];
@@ -42,12 +40,9 @@ export class BreadcrumbsComponent implements OnInit {
           return;
         }
 
-
         // 🟩 Просмотр объявления
         if (url.includes('my-advert-view')) {
-          this.mergedBreadcrumbs = [
-            { title: 'Мои объявления', url: '/my-adverts' },
-          ];
+          this.mergedBreadcrumbs = [{ title: 'Мои объявления', url: '/my-adverts' }];
           return;
         }
 
@@ -66,16 +61,13 @@ export class BreadcrumbsComponent implements OnInit {
     routes.forEach((route: ActivatedRoute) => {
       const config = route.routeConfig;
 
-      console.log('📍 ROUTE PATH:', config?.path, 'DATA:', config?.data);
 
       if (config) {
         let path = config.path ?? '';
 
         // ⚙️ Пропускаем повторяющиеся пустые пути (когда несколько path: '' подряд)
         if (path === '' && url === '') {
-          console.log('➡️ Первый уровень (главная) — оставляем');
         } else if (path === '') {
-          console.log('🚫 Пропускаем второй пустой path');
           this.getBreadCrumb(route.children, url);
           return;
         }
@@ -87,7 +79,6 @@ export class BreadcrumbsComponent implements OnInit {
 
         // 🔹 Добавляем сегмент в URL
         url += path ? `/${path}` : '';
-        console.log('🧩 Текущий URL:', url);
 
         // 🔹 Если у маршрута есть data.breadcrumb — добавляем в крошки
         if (config.data?.['breadcrumb']) {
@@ -95,19 +86,16 @@ export class BreadcrumbsComponent implements OnInit {
             title: config.data['breadcrumb'],
             url,
           };
-          console.log('✅ Добавляем крошку:', breadcrumb);
           this.breadcrumbs.push(breadcrumb);
         }
       }
 
       // 🔁 Рекурсивно обрабатываем дочерние маршруты
       if (route.children.length) {
-        console.log('↪️ Спускаемся к детям:', route.children.length);
         this.getBreadCrumb(route.children, url);
       }
     });
 
     // 🧭 После прохода по всем маршрутам
-    console.log('📋 Итоговые крошки:', this.breadcrumbs);
   }
 }

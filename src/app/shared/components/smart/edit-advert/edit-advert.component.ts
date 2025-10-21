@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -14,15 +14,15 @@ import { AdvertService } from '../../../services/advert.service';
   selector: 'app-edit-advert',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-advert.component.html',
-  styleUrl: './edit-advert.component.scss'
+  styleUrl: './edit-advert.component.scss',
 })
-export class EditAdvertComponent {
+export class EditAdvertComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private editAdvertService = inject(EditAdvertService);
   private categoriesService = inject(CategoriesService);
-  private advertService = inject(AdvertService)
+  private advertService = inject(AdvertService);
 
   form!: FormGroup;
   advertId!: string;
@@ -41,8 +41,8 @@ export class EditAdvertComponent {
     this.categoriesService.loadAllCategories();
 
     // Загружаем данные объявления (только для отображения, не для авто-подстановки категорий)
-    this.editAdvertService.loadAdvert(this.advertId).subscribe(advert => {
-      this.images = (advert.imagesIds ?? []).map(id => ({
+    this.editAdvertService.loadAdvert(this.advertId).subscribe((advert) => {
+      this.images = (advert.imagesIds ?? []).map((id) => ({
         url: `${environment.baseApiURL}/Images/${id}`,
       }));
 
@@ -53,8 +53,9 @@ export class EditAdvertComponent {
         cost: [advert.cost, Validators.required],
         location: [advert.location, Validators.required],
         email: [advert.email],
-        phone: [advert.phone],
+        phone: [advert.phone, Validators.required],
         categoryId: ['', Validators.required],
+        subCategoryId: [null, Validators.required],
         imagesIds: [[]],
       });
     });
@@ -62,21 +63,19 @@ export class EditAdvertComponent {
     // Следим за выбранной корневой категорией
     effect(() => {
       const id = this.selectedRootId();
-      const found = this.categories().find(c => c.id === id) || null;
+      const found = this.categories().find((c) => c.id === id) || null;
       this.selectedRoot.set(found);
     });
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   onRootCategorySelect(event: Event) {
     const id = (event.target as HTMLSelectElement).value;
     this.form.get('categoryId')?.setValue(id);
     this.selectedRootId.set(id);
     this.selectedSubId.set(null);
 
-    const root = this.categories().find(c => c.id === id);
+    const root = this.categories().find((c) => c.id === id);
     if (root?.hasChildren && !root.childs?.length) {
       this.categoriesService.tumblerCategory(root);
     }
@@ -114,7 +113,7 @@ export class EditAdvertComponent {
     // 3️⃣ Сбрасываем input
     input.value = '';
   }
-  
+
   removeImage(index: number) {
     this.images.splice(index, 1);
   }
@@ -141,13 +140,25 @@ export class EditAdvertComponent {
       if (value != null) formData.append(key, value as string);
     });
 
-    this.images.forEach(image => {
+    this.images.forEach((image) => {
       if (image.file) formData.append('images', image.file);
     });
 
     this.editAdvertService.updateAdvert(this.advertId, formData).subscribe({
       next: () => this.router.navigate(['/my-adverts']),
-      error: err => console.error('Ошибка при сохранении:', err),
+      error: (err) => console.error('Ошибка при сохранении:', err),
     });
+  }
+
+  getFileSize(size: number | undefined): string {
+    if(size){
+        return size < 1024 * 1024
+      ? `${(size / 1024).toFixed(1)} КБ`
+      : `${(size / 1024 / 1024).toFixed(1)} МБ`;
+    }
+    else{
+      return 'жлрролро';
+    }
+  
   }
 }

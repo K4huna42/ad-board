@@ -7,10 +7,9 @@ import { AdvertsApiService } from '../../../../../infrastructure/adverts/service
 import { UserDataApiService } from '../../../../services/user-data-api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EditAdvertService {
-
   private advertsApiService = inject(AdvertsApiService);
   private userDataApiService = inject(UserDataApiService);
 
@@ -22,19 +21,16 @@ export class EditAdvertService {
     const token = localStorage.getItem('VXNlcklk');
     if (!token) throw new Error('Token not found');
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       this.advertsApiService.updateAdvert(formData, token, id).subscribe({
         next: (updatedAdvert: any) => {
-          console.log('✅ Объявление обновлено:', updatedAdvert);
 
           // 🔥 Обновляем объявление в userData
           const currentUser = this.userDataApiService.userData();
           if (currentUser) {
-            this.userDataApiService.userData.update(u => ({
+            this.userDataApiService.userData.update((u) => ({
               ...u!,
-              adverts: u?.adverts?.map(a =>
-                a.id === updatedAdvert.id ? updatedAdvert : a
-              )
+              adverts: u?.adverts?.map((a) => (a.id === updatedAdvert.id ? updatedAdvert : a)),
             }));
           }
 
@@ -44,7 +40,7 @@ export class EditAdvertService {
         error: (error) => {
           console.error('Ошибка обновления объявления:', error.error.message);
           observer.error(error);
-        }
+        },
       });
     });
   }

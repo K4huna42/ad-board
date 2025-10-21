@@ -4,26 +4,34 @@ import { CategoriesService } from '../../../../features/categories/services/cate
 import { SafeUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NewAdvertService } from './services/new-advert.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ShortAdvertDtoInterface } from '../../../../infrastructure/adverts/dto';
 import { AdvertService } from '../../../services/advert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-advert',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './new-advert.component.html',
-  styleUrl: './new-advert.component.scss'
+  styleUrl: './new-advert.component.scss',
 })
 export class NewAdvertComponent {
-  private categoriesService = inject(CategoriesService)
-  private newAdvertService = inject(NewAdvertService)
-  private advertService = inject(AdvertService)
+  private categoriesService = inject(CategoriesService);
+  private newAdvertService = inject(NewAdvertService);
+  private advertService = inject(AdvertService);
   private fb = inject(FormBuilder);
+  private router = inject(Router)
 
-  images: { file: File, url: SafeUrl }[] = [];
+  images: { file: File; url: SafeUrl }[] = [];
   value = '';
   items: string[] = [];
-  newAdvertForm: FormGroup
+  newAdvertForm: FormGroup;
   advertForm!: FormGroup;
   advertId!: string;
   advertData?: ShortAdvertDtoInterface;
@@ -38,21 +46,21 @@ export class NewAdvertComponent {
   constructor() {
     this.newAdvertForm = this.fb.group({
       categoryId: ['', [Validators.required]],
+      subCategoryId: [null, Validators.required],
       name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      description: [''],
       location: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: [''],
       phone: ['', [Validators.required]],
       cost: [0, [Validators.required]],
-      images: [[], [Validators.required]],
-    }
-    )
+      images: [[]],
+    });
 
     this.categoriesService.loadAllCategories();
 
     effect(() => {
       const id = this.selectedRootId();
-      const found = this.categories().find(c => c.id === id) || null;
+      const found = this.categories().find((c) => c.id === id) || null;
       this.selectedRoot.set(found);
     });
   }
@@ -63,7 +71,7 @@ export class NewAdvertComponent {
     this.selectedRootId.set(id);
     this.selectedSubId.set(null);
 
-    const root = this.categories().find(c => c.id === id);
+    const root = this.categories().find((c) => c.id === id);
     if (root?.hasChildren && !root.childs?.length) {
       this.categoriesService.tumblerCategory(root);
     }
@@ -135,6 +143,9 @@ export class NewAdvertComponent {
       }
     }
 
-    this.newAdvertService.createNewAdvret(formData)
+    this.newAdvertService.createNewAdvert(formData).subscribe({
+      next: () => this.router.navigate(['/my-adverts']),
+      error: (err) => console.error('Ошибка при сохранении:', err),
+    });
   }
 }

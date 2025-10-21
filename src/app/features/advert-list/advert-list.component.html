@@ -1,18 +1,17 @@
 <div class="main">
-  <div class="main__container container">
-    <h3 class="main__title">Рекомендации для вас</h3>
+  <div class="main_container container">
+    <h3 class="main_title">Рекомендации для вас</h3>
 
-    <div class="main__content">
+    <div class="main_content">
       @if(showCategories){
-        <aside class="main__sidebar">
-          <app-categories></app-categories>
-        </aside>
+      <aside class="main_sidebar">
+        <app-categories></app-categories>
+      </aside>
       }
-      <section class="main__cards" [class.with-categories]="showCategories">
+      <section class="main_cards" [class.main_cards-with-categories]="showCategories">
         @for (item of responceAdvert(); track item.id) {
-        <a [routerLink]="['/advert-view', item.id]">
-          <app-advert class="main__img" [data]="item"></app-advert>
-        </a>
+        <app-advert [data]="item" [showActions]="false" [advertId]="item.id">
+        </app-advert>
         }
       </section>
     </div>

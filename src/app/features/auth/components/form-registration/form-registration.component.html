@@ -1,41 +1,53 @@
-<form [formGroup]="userProfileForm" (ngSubmit)="registrationCall()">
-    <h3 class="title">Регистрация</h3>
-    <input class="input" type="text" formControlName="name" placeholder="Имя">
+<form class="register-form" [formGroup]="userProfileForm" (ngSubmit)="registrationCall()">
+    <h3 class="register-form_title">Регистрация</h3>
+
+    <input class="register-form_input"
+        [ngClass]="{'register-form_input-error': userProfileForm.get('name')?.touched && userProfileForm.get('name')?.invalid}"
+        type="text" formControlName="name" placeholder="Имя">
     @if(userProfileForm.get('name')?.touched && userProfileForm.get('name')?.invalid){
-    <ul class="error-list">
+    <ul class="register-form_error-list">
         @if(userProfileForm.get('name')?.errors?.['required']){<li>Поле обязательно</li>}
     </ul>
     }
-    <input class="input" type="text" formControlName="login" placeholder="Логин">
+
+    <input class="register-form_input"
+        [ngClass]="{'register-form_input-error': userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid}"
+        type="text" formControlName="login" placeholder="Логин">
     @if(userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid){
-    <ul class="error-list">
+    <ul class="register-form_error-list">
         @if(userProfileForm.get('login')?.errors?.['required']){<li>Поле обязательно</li>}
-        @if(userProfileForm.get('login')?.errors?.['englishLettersOnly']){<li>Допустимы только английские буквы и
-            цифры</li>}
+        @if(userProfileForm.get('login')?.errors?.['englishLettersOnly']){<li>Допустимы только английские буквы и цифры
+        </li>}
         @if(userProfileForm.get('login')?.errors?.['noSpacesAllowed']){<li>Пробелы недопустимы</li>}
     </ul>
     }
 
-    <input class="input" type="password" formControlName="password" placeholder="Пароль">
+    <input class="register-form_input"
+        [ngClass]="{'register-form_input-error': userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid}"
+        type="password" formControlName="password" placeholder="Пароль">
     @if(userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid){
-    <ul class="error-list">
+    <ul class="register-form_error-list">
         @if(userProfileForm.get('password')?.errors?.['required']){<li>Поле обязательно</li>}
         @if(userProfileForm.get('password')?.errors?.['minlength']){<li>Минимум 8 символов</li>}
         @if(userProfileForm.get('password')?.errors?.['englishLettersOnly']){<li>Допустимы только английские буквы и
-            цифры </li>}
+            цифры</li>}
         @if(userProfileForm.get('password')?.errors?.['noSpacesAllowed']){<li>Пробелы недопустимы</li>}
     </ul>
     }
-    <input class="input" type="password" formControlName="confirmPassword" placeholder="Подтверждение пароля" />
+
+    <input class="register-form_input"
+        [ngClass]="{'register-form_input-error': userProfileForm.get('confirmPassword')?.touched && userProfileForm.get('confirmPassword')?.invalid || userProfileForm.errors?.['passwordsMismatch'] && userProfileForm.get('confirmPassword')?.touched}"
+        type="password" formControlName="confirmPassword" placeholder="Подтверждение пароля">
     @if(userProfileForm.get('confirmPassword')?.touched && userProfileForm.get('confirmPassword')?.invalid){
-    <ul class="error-list">
+    <ul class="register-form_error-list">
         @if(userProfileForm.get('confirmPassword')?.errors?.['required']){<li>Поле обязательно</li>}
     </ul>
     }
     @if(userProfileForm.errors?.['passwordsMismatch'] && userProfileForm.get('confirmPassword')?.touched){
-    <ul class="error-list">
+    <ul class="register-form_error-list">
         <li>Пароли не совпадают</li>
     </ul>
     }
-    <button class="button" type="submit">Зарегистрироваться</button>
+
+    <button class="register-form_button" type="submit">Зарегистрироваться</button>
 </form>

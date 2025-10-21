@@ -1,23 +1,34 @@
-<form [formGroup]="userProfileForm" (ngSubmit)="authorizationCall()">
-    <h3 class="title">Авторизация</h3>
-    <input class="input" type="text" formControlName="login" placeholder="Логин">
+<form class="auth-form" [formGroup]="userProfileForm" (ngSubmit)="authorizationCall()">
+    <h3 class="auth-form_title">Авторизация</h3>
+
+    <input class="auth-form_input"
+        [ngClass]="{'auth-form_input-error': userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid}"
+        type="text" formControlName="login" placeholder="Логин">
     @if(userProfileForm.get('login')?.touched && userProfileForm.get('login')?.invalid){
-    <ul class="error-list">
-        @if(userProfileForm.get('login')?.errors?.['required']){<li>Поле обязательно</li>}
-        @if(userProfileForm.get('login')?.errors?.['englishLettersOnly']){<li>Допустимы только английские буквы и
-            цифры</li>}
-        @if(userProfileForm.get('login')?.errors?.['noSpacesAllowed']){<li>Пробелы недопустимы</li>}
+    <ul class="auth-form_error-list">
+        @if(userProfileForm.get('login')?.errors?.['required']){<li class="auth-form_error-item">Поле обязательно</li>}
+        @if(userProfileForm.get('login')?.errors?.['englishLettersOnly']){<li class="auth-form_error-item">Допустимы
+            только английские буквы и цифры</li>}
+        @if(userProfileForm.get('login')?.errors?.['noSpacesAllowed']){<li class="auth-form_error-item">Пробелы
+            недопустимы</li>}
     </ul>
     }
-    <input class="input" type="password" formControlName="password" placeholder="Пароль">
+
+    <input class="auth-form_input"
+        [ngClass]="{'auth-form_input-error': userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid}"
+        type="password" formControlName="password" placeholder="Пароль">
     @if(userProfileForm.get('password')?.touched && userProfileForm.get('password')?.invalid){
-    <ul class="error-list">
-        @if(userProfileForm.get('password')?.errors?.['required']){<li>Поле обязательно</li>}
-        @if(userProfileForm.get('password')?.errors?.['minlength']){<li>Минимум 8 символов</li>}
-        @if(userProfileForm.get('password')?.errors?.['englishLettersOnly']){<li>Допустимы только английские буквы и
-            цифры</li>}
-        @if(userProfileForm.get('password')?.errors?.['noSpacesAllowed']){<li>Пробелы недопустимы</li>}
+    <ul class="auth-form_error-list">
+        @if(userProfileForm.get('password')?.errors?.['required']){<li class="auth-form_error-item">Поле обязательно
+        </li>}
+        @if(userProfileForm.get('password')?.errors?.['minlength']){<li class="auth-form_error-item">Минимум 8 символов
+        </li>}
+        @if(userProfileForm.get('password')?.errors?.['englishLettersOnly']){<li class="auth-form_error-item">Допустимы
+            только английские буквы и цифры</li>}
+        @if(userProfileForm.get('password')?.errors?.['noSpacesAllowed']){<li class="auth-form_error-item">Пробелы
+            недопустимы</li>}
     </ul>
     }
-    <button class="button" type="submit">Войти</button>
+
+    <button class="auth-form_button" type="submit">Войти</button>
 </form>

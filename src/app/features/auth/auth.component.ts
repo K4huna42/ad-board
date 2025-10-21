@@ -16,11 +16,10 @@ import { FormAuthorizationComponent } from './components/form-authorization/form
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
-export class AuthComponent{
+export class AuthComponent {
   public authService = inject(AuthService);
 
   showRegistration = true;
-  successMessage = this.authService.successMessage
 
   closePopUp() {
     this.authService.changeVisible(false);

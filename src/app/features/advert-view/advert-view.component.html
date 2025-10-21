@@ -28,14 +28,17 @@
             <p class="description">{{ advert.description }}</p>
         </div>
     </div>
-    @if(visible){
+    @if (visible) {
     <div class="popup-overlay" role="button" tabindex="0" (click)="closePopUp()" (keydown.enter)="closePopUp()"
         (keydown.space)="closePopUp()">
         <div class="popup" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
             (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
+            <button class="close-btn" (click)="closePopUp()" aria-label="Закрыть">×</button>
             <p class="user">Пользователь</p>
             <p class="phone">{{ advert.phone }}</p>
-            <ul class="safety-rules">Правила безопасных сделок
+            <div class="divider"></div>
+            <p class="safety-title">Правила безопасных сделок</p>
+            <ul class="safety-rules">
                 <li>Храните в тайне почту, данные паспорта и код с карты</li>
                 <li>Игнорируйте ссылки на оплату, которые присылает собеседник</li>
                 <li>Никому не говорите коды из смс и пуш-уведомлений</li>
@@ -43,5 +46,9 @@
         </div>
     </div>
     }
+    
 </div>
 }
+
+
+

@@ -9,7 +9,7 @@ import { AdvertService } from '../../shared/services/advert.service';
   selector: 'app-categories',
   imports: [CommonModule, FormsModule, CategoriesItemComponent],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent implements OnInit {
   private categoriesService = inject(CategoriesService);
@@ -17,7 +17,6 @@ export class CategoriesComponent implements OnInit {
   categories = this.categoriesService.categories;
 
   ngOnInit() {
-    this.categoriesService.loadAllCategories()
+    this.categoriesService.loadAllCategories();
   }
-
 }

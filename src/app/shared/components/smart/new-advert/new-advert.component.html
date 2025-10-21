@@ -2,49 +2,59 @@
     <div class="new_advert_container">
         <p class="new_advert_title">Новое объявление</p>
 
-        <!-- Категории -->
-        <p class="new_advert_text">Выберите категорию *</p>
-        <div class="dropdowns">
+        <p class="new_advert_text">
+            Выберите категорию <span class="required-star">*</span>
+        </p>
+        <div class="dropdowns required">
             <!-- Первый dropdown -->
-            <div class="custom-select">
-                <select formControlName="categoryId" (change)="onRootCategorySelect($event)" [value]="selectedRootId() || ''">
+            <div class="custom-select required">
+                <select class="required" formControlName="categoryId" (change)="onRootCategorySelect($event)"
+                    [value]="selectedRootId() || ''">
                     <option value="" disabled selected>Нажмите, чтобы выбрать</option>
                     @for (cat of categories(); track cat.id) {
                     <option [value]="cat.id">{{ cat.name }}</option>
                     }
                 </select>
-                <svg class="select-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M11.9997 15.2502C11.9012 15.2506 11.8035 15.2314 11.7125 15.1936C11.6215 15.1558 11.5389 15.1003 11.4697 15.0302L6.46969 10.0302C6.36997 9.88426 6.32496 9.70784 6.34262 9.532C6.36028 9.35616 6.43946 9.1922 6.5662 9.06905C6.69295 8.94589 6.85911 8.87145 7.03538 8.85884C7.21165 8.84624 7.38672 8.89629 7.52969 9.00016L11.9997 13.4402L16.4697 9.00016C16.6106 8.90877 16.7782 8.86735 16.9455 8.88254C17.1128 8.89772 17.2702 8.96864 17.3924 9.08392C17.5146 9.1992 17.5945 9.35217 17.6194 9.5183C17.6443 9.68444 17.6127 9.85412 17.5297 10.0002L12.5297 15.0002C12.463 15.0757 12.3816 15.1369 12.2905 15.1799C12.1994 15.2228 12.1004 15.2468 11.9997 15.2502V15.2502Z"
-                        fill="currentColor" />
-                </svg>
             </div>
+            <!-- Ошибка -->
+            @if(newAdvertForm.get('categoryId')?.touched && newAdvertForm.get('categoryId')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('categoryId')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
 
             <!-- Второй dropdown -->
             @if (selectedRoot()?.childs?.length) {
-            <div class="custom-select">
-                <select formControlName="categoryId" (change)="onSubCategorySelect($event)"
+            <div class="custom-select required">
+                <select class="required" formControlName="subCategoryId" (change)="onSubCategorySelect($event)"
                     [value]="selectedSubId() || ''">
                     <option value="" disabled selected>Нажмите, чтобы выбрать</option>
                     @for (sub of selectedRoot()?.childs; track sub.id) {
                     <option [value]="sub.id">{{ sub.name }}</option>
                     }
                 </select>
-                <svg class="select-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M11.9997 15.2502C11.9012 15.2506 11.8035 15.2314 11.7125 15.1936C11.6215 15.1558 11.5389 15.1003 11.4697 15.0302L6.46969 10.0302C6.36997 9.88426 6.32496 9.70784 6.34262 9.532C6.36028 9.35616 6.43946 9.1922 6.5662 9.06905C6.69295 8.94589 6.85911 8.87145 7.03538 8.85884C7.21165 8.84624 7.38672 8.89629 7.52969 9.00016L11.9997 13.4402L16.4697 9.00016C16.6106 8.90877 16.7782 8.86735 16.9455 8.88254C17.1128 8.89772 17.2702 8.96864 17.3924 9.08392C17.5146 9.1992 17.5945 9.35217 17.6194 9.5183C17.6443 9.68444 17.6127 9.85412 17.5297 10.0002L12.5297 15.0002C12.463 15.0757 12.3816 15.1369 12.2905 15.1799C12.1994 15.2228 12.1004 15.2468 11.9997 15.2502V15.2502Z"
-                        fill="currentColor" />
-                </svg>
             </div>
+            <!-- Ошибка -->
+            @if(newAdvertForm.get('subCategoryId')?.touched && newAdvertForm.get('subCategoryId')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('subCategoryId')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
             }
         </div>
 
         <!-- Название -->
         <div>
-            <p class="new_advert_text">Название объявления *</p>
-            <input type="text" class="new_advert_input-text" formControlName="name" placeholder="Что хотите продать?" />
+            <p class="new_advert_text">
+                Название объявления <span class="required-star">*</span>
+            </p>
+            <input type="text" class="new_advert_input-text required" formControlName="name"
+                placeholder="Что хотите продать?" />
+            @if(newAdvertForm.get('name')?.touched && newAdvertForm.get('name')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('name')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
         </div>
 
         <!-- Описание -->
@@ -56,23 +66,35 @@
 
         <!-- Адрес -->
         <div>
-            <p class="new_advert_text">Адрес (место проведения сделки) *</p>
+            <p class="new_advert_text">
+                Адрес (место проведения сделки) <span class="required-star">*</span>
+            </p>
             <div class="autocomplete">
                 <input type="text" formControlName="location" (input)="sendCity($event)"
-                    placeholder="начните вводить адрес" class="autocomplete__input" />
-
-                <ul *ngIf="items?.length" class="autocomplete__list">
-                    <li *ngFor="let item of items" (click)="selectCity(item)" class="autocomplete__item">
+                    placeholder="начните вводить адрес" class="autocomplete_input required" [value]="value" />
+                @if(items.length){
+                <ul class="autocomplete_list">
+                    @for(item of items; track item){
+                    <li (click)="selectCity(item)" class="autocomplete_item">
                         {{ item }}
                     </li>
+                    }
                 </ul>
+                }
+
             </div>
+            @if(newAdvertForm.get('location')?.touched && newAdvertForm.get('location')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('location')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
         </div>
+
 
         <!-- Изображения -->
         <div class="upload">
-            <div class="upload__header">
-                <label class="upload__button">
+            <div class="upload_header">
+                <label class="upload_button">
                     <input type="file" multiple accept="image/jpeg, image/png, image/heic"
                         (change)="onFilesSelected($event)" />
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,36 +107,53 @@
                     </svg>
                     Добавить картинки
                 </label>
-                <p class="upload__info">Максимум 10 картинок в формате jpeg, png или heic</p>
+                <p class="upload_info">Максимум 10 картинок в формате jpeg, png или heic</p>
             </div>
 
-            <div class="upload__list">
-                <div class="upload__item" *ngFor="let img of images; let i = index">
-                    <img [src]="img.url" alt="preview" class="upload__preview" />
-                    <div class="upload__details">
-                        <p class="upload__name">{{ img.file.name }}</p>
-                        <p class="upload__size">{{ getFileSize(img.file.size) }}</p>
+            <div class="upload_list">
+                @for (img of images; track i; let i = $index) {
+                <div class="upload_item">
+                    <img [src]="img.url" alt="preview" class="upload_preview" />
+                    <div class="upload_details">
+                        <p class="upload_name">{{ img.file.name }}</p>
+                        <p class="upload_size">{{ getFileSize(img.file.size) }}</p>
                     </div>
-                    <button class="upload__remove" (click)="removeImage(i)">×</button>
+                    <button class="upload_remove" (click)="removeImage(i)">×</button>
                 </div>
+                }
             </div>
         </div>
 
         <!-- Цена -->
         <div>
-            <p class="new_advert_text">Цена *</p>
-            <input type="number" class="new_advert_input-text" formControlName="cost" placeholder="0 ₽" />
+            <p class="new_advert_text">
+                Цена <span class="required-star">*</span>
+            </p>
+            <input type="text" class="new_advert_input-text required" formControlName="cost" placeholder="0 ₽" />
+            @if(newAdvertForm.get('cost')?.touched && newAdvertForm.get('cost')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('cost')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
         </div>
 
         <!-- Телефон -->
         <div>
-            <p class="new_advert_text">Телефон *</p>
-            <input type="text" class="new_advert_input-text" formControlName="phone" placeholder="+7 777 7777" />
+            <p class="new_advert_text">
+                Телефон <span class="required-star">*</span>
+            </p>
+            <input type="text" class="new_advert_input-text required" formControlName="phone"
+                placeholder="+7 777 7777" />
+            @if(newAdvertForm.get('phone')?.touched && newAdvertForm.get('phone')?.invalid){
+            <ul class="error-list">
+                @if(newAdvertForm.get('phone')?.errors?.['required']){<li>Поле обязательно</li>}
+            </ul>
+            }
         </div>
 
         <!-- Email -->
         <div>
-            <p class="new_advert_text">Email *</p>
+            <p class="new_advert_text">Email</p>
             <input type="email" class="new_advert_input-text" formControlName="email" placeholder="example@mail.com" />
         </div>
 

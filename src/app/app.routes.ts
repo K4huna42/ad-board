@@ -17,9 +17,7 @@ export const routes: Routes = [
       {
         path: 'my-advert-view/:id',
         loadComponent: () =>
-          import('./features/advert-view/advert-view.component').then(
-            (m) => m.AdvertViewComponent,
-          ),
+          import('./features/advert-view/advert-view.component').then((m) => m.AdvertViewComponent),
       },
       {
         path: 'edit-advert/:id',
@@ -27,7 +25,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./shared/components/smart/edit-advert/edit-advert.component').then(
             (m) => m.EditAdvertComponent,
-          )
+          ),
       },
     ],
   },
@@ -67,7 +65,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./shared/components/smart/new-advert/new-advert.component').then(
         (m) => m.NewAdvertComponent,
-      )
+      ),
   },
-
 ];

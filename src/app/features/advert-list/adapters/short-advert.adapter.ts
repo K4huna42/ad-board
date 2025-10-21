@@ -12,7 +12,6 @@ export const ShortAdvertFromDTOAdapter = (data: ShortAdvertDtoInterface): ShortA
     name: data.name,
     cost: data.cost,
     phone: data.phone,
-    category: data.category
-
+    category: data.category,
   };
 };

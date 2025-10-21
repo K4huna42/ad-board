@@ -7,10 +7,10 @@ import { CommonModule } from '@angular/common';
   selector: 'app-categories-item',
   imports: [CommonModule, CategoriesItemComponent],
   templateUrl: './categories-item.component.html',
-  styleUrl: './categories-item.component.scss'
+  styleUrl: './categories-item.component.scss',
 })
 export class CategoriesItemComponent {
-  private categoriesService = inject(CategoriesService)
+  private categoriesService = inject(CategoriesService);
 
   @Input() cat!: Category;
 

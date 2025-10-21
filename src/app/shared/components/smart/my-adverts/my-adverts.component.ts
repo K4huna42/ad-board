@@ -16,23 +16,18 @@ export class MyAdvertsComponent implements OnInit {
   userData = this.userDataApiService.userData;
 
   constructor() {
-    effect(() => {
-      console.log('Обновились объявления:', this.userData()?.adverts);
-    });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   deleteMyAdvert(id: string) {
-    this.myAdvertService.deleteThisAdvert(id)
+    this.myAdvertService.deleteThisAdvert(id);
   }
 
-  confirmDelete(id: string) {
+  confirmDelete(id: string) {  // ✅ id обязательно string
     const confirmed = confirm('Вы точно хотите удалить это объявление?');
     if (confirmed) {
       this.deleteMyAdvert(id);
     }
   }
-
 }

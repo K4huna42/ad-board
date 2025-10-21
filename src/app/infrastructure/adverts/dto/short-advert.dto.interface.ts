@@ -6,11 +6,11 @@ export interface ShortAdvertDtoInterface {
   location?: string;
   createdAt: string;
   isActive: boolean;
-  phone:number;
+  phone: number;
   imagesIds: string[];
   category: {
-    id:string
-    parentId:string
-  }
-  email:string;
+    id: string;
+    parentId: string;
+  };
+  email: string;
 }

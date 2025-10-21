@@ -7,10 +7,9 @@ export interface BreadcrumbItem {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BreadcrumbsService {
-
   breadcrumb = signal<any[]>([]);
 
   constructor() {
@@ -18,21 +17,17 @@ export class BreadcrumbsService {
     if (saved) {
       try {
         this.breadcrumb.set(JSON.parse(saved));
-        console.log('♻️ Восстановлены хлебные крошки из localStorage');
       } catch {
-        console.warn('⚠️ Ошибка при чтении сохранённых крошек');
       }
     }
   }
 
   set(items: BreadcrumbItem[]) {
-    console.log('🟦 Установлены хлебные крошки:', items);
     this.breadcrumb.set(items);
     localStorage.setItem('breadcrumbs', JSON.stringify(items));
   }
 
   clear() {
-    console.log('🟨 Хлебные крошки очищены');
     this.breadcrumb.set([]);
     localStorage.removeItem('breadcrumbs');
   }

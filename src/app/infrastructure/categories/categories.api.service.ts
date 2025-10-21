@@ -4,10 +4,9 @@ import { environment } from '../../../enviroments/environment.development';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoriesApiService {
-
   private readonly http = inject(HttpClient);
 
   getAllCategories(): Observable<any> {

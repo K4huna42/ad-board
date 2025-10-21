@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { AuthApiService } from '../../../infrastructure/authorization/auth.api.service';
 import { AuthStateService } from './auth.state.service';
 import { UserDataApiService } from '../../../shared/services/user-data-api.service';
+import { ToastService } from '../../../shared/components/dump/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class AuthService {
   private userDataApiService = inject(UserDataApiService);
 
   public visiblePopUp = signal(false);
-  public successMessage = signal<string | null>(null);
+  private toast = inject(ToastService);
 
   changeVisible(visible: boolean) {
     this.visiblePopUp.set(visible);
@@ -33,18 +34,17 @@ export class AuthService {
               break;
 
             case 'registration':
-              this.successMessage.set('Вы успешно зарегистрировались! Теперь войдите в свой аккаунт.');
+              this.toast.show(
+                'Вы успешно зарегистрировались! Теперь войдите в свой аккаунт.',
+                'success'
+              ); 
               this.changeVisible(false);
-
-              setTimeout(() => {
-              this.successMessage.set(null);
-            }, 3000);
               break;
           }
         }
       },
-      (error) => {
-        console.log(error.error.message);
+      () => {
+        this.toast.show('Ошибка', 'error')
       },
     );
   }

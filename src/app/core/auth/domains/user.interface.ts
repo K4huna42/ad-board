@@ -1,10 +1,10 @@
-import { ShortAdvert } from "../../../features/advert-list/domains";
+import { ShortAdvert } from '../../../features/advert-list/domains';
 
 export interface User {
   name?: string;
   login?: string;
   password?: string;
-  id?: string
+  id?: string;
   adverts?: ShortAdvert[];
 }
 

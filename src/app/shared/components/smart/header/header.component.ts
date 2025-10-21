@@ -8,6 +8,7 @@ import { CategoriesService } from '../../../../features/categories/services/cate
 import { AdvertService } from '../../../services/advert.service';
 import { FormsModule } from '@angular/forms';
 import { BreadcrumbsService } from '../breadcrumbs/services/breadcrumbs.service';
+import { ToastService } from '../../dump/toast/services/toast.service';
 
 @Component({
   selector: 'app-header',
@@ -16,17 +17,17 @@ import { BreadcrumbsService } from '../breadcrumbs/services/breadcrumbs.service'
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-
   private authService = inject(AuthService);
   private authStateService = inject(AuthStateService);
   private categoriesService = inject(CategoriesService);
-  private advertService = inject(AdvertService)
+  private advertService = inject(AdvertService);
   private userDataApiService = inject(UserDataApiService);
-  private breadcrumbsService = inject(BreadcrumbsService)
+  private breadcrumbsService = inject(BreadcrumbsService);
+  private toast = inject(ToastService)
   private router = inject(Router);
 
   userData = this.userDataApiService.userData;
-  searchText: string = '';
+  searchText = '';
 
   get stateAuth() {
     return this.authStateService.visibleState();
@@ -58,20 +59,16 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  newAdvertClick(){
-    if(this.stateAuth){
-      this.router.navigate(['/new-advert'])
-    }
-    else{
-      console.log("нужно зарегаться")
+  newAdvertClick() {
+    if (this.stateAuth) {
+      this.router.navigate(['/new-advert']);
+    } else {
+      this.toast.show('Зарегистрируйтесь чтобы создать объявление', 'error')
     }
   }
 
   async onSearch() {
     const selectedCategory = this.categoriesService.selectedCategoryId();
-
-    console.log('📂 selectedCategoryId():', this.categoriesService.selectedCategoryId());
-    console.log('📋 Все категории:', this.categoriesService.categories());
 
     if (selectedCategory && selectedCategory !== '00000000-0000-0000-0000-000000000000') {
       await this.categoriesService.setBreadcrumbByCategoryId(selectedCategory);

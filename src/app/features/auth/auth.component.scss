@@ -1,4 +1,4 @@
-.popup-overlay {
+.auth_overlay {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.45);
@@ -7,14 +7,16 @@
     align-items: center;
     z-index: 999;
     animation: fadeIn 0.25s ease;
+    padding: 16px; // чтобы контент не прилипал к краю экрана на мобильных
+    box-sizing: border-box;
 }
 
-.popup {
+.auth_content {
     background: #fff;
     padding: 40px 30px;
     border-radius: 20px;
     width: 380px;
-    max-width: 95vw;
+    max-width: 100%;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -23,13 +25,34 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
 
+    /* ====== Ноутбуки и мелкие десктопы ====== */
+    @media (max-width: 1024px) {
+        width: 360px;
+        padding: 35px 25px;
+    }
+
+    /* ====== Планшеты ====== */
+    @media (max-width: 768px) {
+        width: 320px;
+        padding: 30px 22px;
+        border-radius: 16px;
+    }
+
+    /* ====== Смартфоны ====== */
     @media (max-width: 480px) {
-        width: 90vw;
+        width: 100%;
         padding: 25px 20px;
+        border-radius: 14px;
+    }
+
+    /* ====== Очень маленькие экраны ====== */
+    @media (max-width: 360px) {
+        padding: 20px 16px;
+        border-radius: 12px;
     }
 }
 
-.toggle-btn {
+.auth_toggle-btn {
     background: transparent;
     border: none;
     font-family: var(--font-family);
@@ -38,22 +61,32 @@
     line-height: 150%;
     color: #3b82f6;
     display: block;
-    /* или оставить flex, если нужны внутренние элементы */
     margin: 10px auto 0 auto;
-    /* сверху 10px, по бокам авто */
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: #2563eb;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
+
+    @media (max-width: 360px) {
+        font-size: 12px;
+    }
 }
 
-.auth-message {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #e6ffed;
-    color: #065f46;
-    border: 1px solid #10b981;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.3s ease;
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

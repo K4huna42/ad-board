@@ -3,7 +3,7 @@
   display: flex;
   width: 100%;
 
-  &__container {
+  &_container {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -12,7 +12,7 @@
     margin: 0 auto;
   }
 
-  &__title {
+  &_title {
     font-family: var(--font-family);
     margin-top: 32px;
     font-size: 24px;
@@ -20,38 +20,121 @@
     color: #1e293b;
   }
 
-  &__content {
+  &_content {
     display: flex;
     gap: 24px;
     margin-top: 24px;
+
+    @media (max-width: 1300px) {
+      flex-direction: column;
+    }
   }
 
-  &__sidebar {
+  &_sidebar {
     width: 260px;
     flex-shrink: 0;
+
+    @media (max-width: 1300px) {
+      width: 100%;
+      order: -1;
+      margin-bottom: 16px;
+    }
   }
 
-  &__cards {
+  &_cards {
     display: grid;
     gap: 24px;
     flex: 1;
-
-    // по умолчанию (категорий нет) — например 4 колонки
     grid-template-columns: repeat(4, 1fr);
 
-    &.with-categories {
-      // если категории слева → 3 колонки
+    &-with-categories {
+      grid-template-columns: repeat(3, 1fr);
+
+      @media (max-width: 1296px) and (min-width: 1025px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1296px) and (min-width: 1025px) {
       grid-template-columns: repeat(3, 1fr);
     }
 
-    a {
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .main_link {
+      display: block;
       text-decoration: none;
       color: inherit;
     }
 
-    app-advert {
+    .main_card {
       display: block;
       width: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    .card-img {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+    }
+
+    &:hover .card-img img {
+      transform: scale(1.05);
+    }
+
+    .card-text {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.03);
+      }
+
+      &-title {
+        font-family: var(--font-family);
+        font-weight: 600;
+        color: #3b82f6;
+        transition: color 0.2s ease;
+      }
+
+      &-price {
+        font-family: var(--font-family);
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      &-meta {
+        font-family: var(--font-family);
+        font-size: 14px;
+        color: #64748b;
+      }
     }
   }
 }

@@ -25,7 +25,6 @@ export class AdvertsApiService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-
   getAllAdverts(filter: AdvertSearchRequestDto): Observable<ShortAdvertDtoInterface[]> {
     return this.http.post<ShortAdvertDtoInterface[]>(
       `${environment.baseApiURL}/Advert/search`,
@@ -40,26 +39,40 @@ export class AdvertsApiService {
   createAdvert(form: FormData, token: string) {
     return this.http.post(`${environment.baseApiURL}/Advert`, form, {
       headers: this.getAuthHeaders(token),
-    })
+    });
   }
 
   searchCity(query: string) {
-    return this.http.post(`${environment.DadataApiURL}/rs/suggest/address`, {
-      query: query,
-      from_bound: { value: "city" },
-      to_bound: { value: "city" },
-    }, { headers: this.getAuthCityHeaders(), });
+    return this.http.post(
+      `${environment.DadataApiURL}/rs/suggest/address`,
+      {
+        query: query,
+        from_bound: { value: 'city' },
+        to_bound: { value: 'city' },
+      },
+      { headers: this.getAuthCityHeaders() },
+    );
   }
 
-  updateAdvert(form: FormData, token: string, id:string) {
+  updateAdvert(form: FormData, token: string, id: string) {
     return this.http.put(`${environment.baseApiURL}/Advert/${id}`, form, {
       headers: this.getAuthHeaders(token),
-    })
+    });
   }
 
-  deleteAdvert(token: string, id:string){
-    return this.http.delete(`${environment.baseApiURL}/Advert/${id}`,{
+  deleteAdvert(token: string, id: string) {
+    return this.http.delete(`${environment.baseApiURL}/Advert/${id}`, {
       headers: this.getAuthHeaders(token),
-    })
+    });
+  }
+
+  createComment(token: string, id: string) {
+    return this.http.post(`${environment.baseApiURL}/Advert/${id}/comments`, {
+      headers: this.getAuthHeaders(token),
+    });
+  }
+
+  getAllComments(id: string) {
+    return this.http.get(`${environment.baseApiURL}/Advert/${id}/Comments`);
   }
 }

@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoriesService } from '../../features/categories/services/categories.service';
 import { SafeUrl } from '@angular/platform-browser';
 import { Observable, of, map, catchError } from 'rxjs';
+import { ToastService } from '../components/dump/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ import { Observable, of, map, catchError } from 'rxjs';
 export class AdvertService {
   private advertApiService = inject(AdvertsApiService);
   private categoriesService = inject(CategoriesService);
+  private toast = inject(ToastService)
 
   selectedRootId = signal<string | null>(null);
   selectedSubId = signal<string | null>(null);
@@ -31,14 +33,13 @@ export class AdvertService {
     isActive: false,
     imagesIds: [],
     phone: 0,
-    category:{
-      id:'',
-      parentId:''
+    category: {
+      id: '',
+      parentId: '',
     },
   });
 
   categories = this.categoriesService.categories;
-
 
   changeVisible(visible: boolean) {
     this.visibleAdvertPopUp.set(visible);
@@ -53,6 +54,7 @@ export class AdvertService {
         this.responceAdvert.set(mapped);
       },
       (error) => {
+        this.toast.show('ошибка', 'error')
         console.log(error.error.message);
       },
     );
@@ -65,6 +67,7 @@ export class AdvertService {
         this.responceAdvertId.set(adaptedValue);
       },
       (error) => {
+        this.toast.show('ошибка', 'error')
         console.log(error.error.message);
       },
     );
@@ -75,11 +78,8 @@ export class AdvertService {
       return of([]);
     }
     return this.advertApiService.searchCity(query).pipe(
-      map((value: any) =>
-        value.suggestions.map((s: { data: { city: string } }) => s.data.city)
-      ),
-      catchError(() => of([]))
+      map((value: any) => value.suggestions.map((s: { data: { city: string } }) => s.data.city)),
+      catchError(() => of([])),
     );
   }
-
 }

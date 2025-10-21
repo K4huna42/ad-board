@@ -4,10 +4,11 @@ import { HeaderComponent } from './shared/components/smart/header/header.compone
 import { FooterComponent } from './shared/components/dump/footer/footer.component';
 import { AuthComponent } from './features/auth/auth.component';
 import { BreadcrumbsComponent } from './shared/components/smart/breadcrumbs/breadcrumbs.component';
+import { ToastComponent } from './shared/components/dump/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, AuthComponent, BreadcrumbsComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, AuthComponent, BreadcrumbsComponent, ToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

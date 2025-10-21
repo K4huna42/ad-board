@@ -3,12 +3,14 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment.development';
 import { User, UserData } from '../../core/auth/domains/user.interface';
+import { ToastService } from '../components/dump/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserDataApiService {
   private readonly http = inject(HttpClient);
+  private toast = inject(ToastService)
 
   readonly userData = signal<User | null>(null);
 
@@ -17,7 +19,7 @@ export class UserDataApiService {
       const user = this.userData();
       if (user) {
         sessionStorage.setItem('user', JSON.stringify(user));
-      } 
+      }
     });
   }
 
@@ -48,12 +50,13 @@ export class UserDataApiService {
     requestFn(data).subscribe(
       (value) => {
         if (typeof value === 'object' && value !== null) {
-          const user: User = value
+          const user: User = value;
           sessionStorage.setItem('user', JSON.stringify(user));
-          this.userData.set(user)
+          this.userData.set(user);
         }
       },
       (error) => {
+        this.toast.show('ошибка', 'error')
         console.log(error.error.message);
       },
     );

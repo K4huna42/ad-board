@@ -1,6 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UserDataApiService } from '../../../services/user-data-api.service';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SettingsService } from './services/settings.service';
 
@@ -18,17 +26,20 @@ export class SettingsComponent implements OnInit {
 
   settingsProfileForm: FormGroup;
 
+  successMessage = false;
+
   constructor() {
-    this.settingsProfileForm = this.fb.group({
-      name: ['', [Validators.required]],
-      login: ['', [Validators.required, this.credentialsValidator()]],
-      password: ['', [Validators.required, Validators.minLength(8), this.credentialsValidator()]],
-      confirmPassword: ['', [Validators.required]],
-    },
+    this.settingsProfileForm = this.fb.group(
+      {
+        name: ['', [Validators.required]],
+        login: ['', [Validators.required, this.credentialsValidator()]],
+        password: ['', [Validators.required, Validators.minLength(8), this.credentialsValidator()]],
+        confirmPassword: ['', [Validators.required]],
+      },
       {
         validators: this.passwordsMatchValidator(),
       },
-    )
+    );
   }
 
   ngOnInit(): void {
@@ -36,7 +47,7 @@ export class SettingsComponent implements OnInit {
     if (data) {
       this.settingsProfileForm.patchValue({
         name: data.name,
-        login: data.login
+        login: data.login,
       });
     }
   }
@@ -83,8 +94,14 @@ export class SettingsComponent implements OnInit {
     formData.append('Login', this.settingsProfileForm.get('login')?.value);
     formData.append('Password', this.settingsProfileForm.get('password')?.value);
 
-    this.settingsService.putData(formData)
+    this.settingsService.putData(formData);
+
+    // Показываем сообщение на 3 секунды
+    this.successMessage = true;
+
+    this.settingsProfileForm.get('password')?.reset();
+    this.settingsProfileForm.get('confirmPassword')?.reset();
+
+    setTimeout(() => (this.successMessage = false), 3000);
   }
-
-
 }

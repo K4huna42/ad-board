@@ -1,18 +1,13 @@
 @if(authService.visiblePopUp()){
-<div class="popup-overlay" role="button" tabindex="0" (click)="closePopUp()"
-    (keydown.enter)="closePopUp()" (keydown.space)="closePopUp()">
-    <div class="popup" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
-        (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
-        @if(showRegistration){<app-form-registration></app-form-registration>}
-        @if(!showRegistration){<app-form-authorization></app-form-authorization>}
-        <button (click)="toggleForm()" class="toggle-btn">
-            {{ showRegistration ? 'У меня уже есть аккаунт' : 'Зарегистрироваться' }}
-        </button>
-    </div>
-</div>
-}
-@if(successMessage()){
-  <div class="auth-message">
-    {{ successMessage() }}
+<div class="auth_overlay" role="button" tabindex="0" (click)="closePopUp()" (keydown.enter)="closePopUp()"
+  (keydown.space)="closePopUp()">
+  <div class="auth_content" role="dialog" tabindex="0" (click)="$event.stopPropagation()"
+    (keydown.enter)="$event.stopPropagation()" (keydown.space)="$event.stopPropagation()">
+    @if(showRegistration){<app-form-registration></app-form-registration>}
+    @if(!showRegistration){<app-form-authorization></app-form-authorization>}
+    <button (click)="toggleForm()" class="auth_toggle-btn">
+      {{ showRegistration ? 'У меня уже есть аккаунт' : 'Зарегистрироваться' }}
+    </button>
   </div>
+</div>
 }

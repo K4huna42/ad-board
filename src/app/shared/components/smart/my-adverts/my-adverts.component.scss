@@ -14,6 +14,11 @@
         font-size: 24px;
         line-height: 133%;
         color: #1e293b;
+
+        @media (max-width: 600px) {
+            font-size: 20px;
+            text-align: center;
+        }
     }
 
     &__content {
@@ -26,109 +31,193 @@
     &__cards {
         display: grid;
         gap: 24px;
-        grid-template-columns: repeat(4, 1fr);
+        flex: 1;
+        grid-template-columns: repeat(4, 1fr); // по умолчанию 4 колонки
+        align-items: stretch;
 
-        /* Кнопка «Новое объявление» */
-        .my_adverts__button-new-advert {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 336px;
-            border-radius: 4px;
-            background: rgba(59, 130, 246, 0.04);
-            border: 3px dashed rgba(59, 130, 246, 0.16);
-            cursor: pointer;
-            font-family: var(--font-family);
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 133%;
-            gap: 16px;
-
-            svg {
-                width: 60px;
-                height: 60px;
-            }
-
-            &:hover {
-                background: rgba(59, 130, 246, 0.08);
-                border-color: rgba(59, 130, 246, 0.3);
-            }
+        @media (max-width: 1296px) and (min-width: 1025px) {
+            grid-template-columns: repeat(3, 1fr);
         }
 
-        /* Ссылки с карточками объявлений */
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
         a {
+            display: block;
             text-decoration: none;
             color: inherit;
         }
 
-        app-advert {
+        &_card {
             display: block;
             width: 100%;
-            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+
+            &:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
         }
-    }
-}
 
-.advert-wrapper {
-    position: relative;
-}
+        /* Кнопка "Новое объявление" */
 
-.advert-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-}
-
-.edit-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    &:hover {
-        background: white;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-
-        svg path {
-            stroke: #007bff;
-        }
     }
 }
 
 .my_adverts__button-new-advert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-
-    &:hover {
-        background: #2563eb;
-    }
+    width: 100%;
+    max-width: 306px; // как у карточки
+    min-height: 324.7px; // минимальная высота как у карточки на full screen
+    height: auto; // убираем 100%, чтобы не сжималась
+    border-radius: 4px;
+    background: rgba(59, 130, 246, 0.04);
+    border: 3px dashed rgba(59, 130, 246, 0.16);
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 133%;
+    gap: 16px;
+    color: #3B82F6;
+    transition: all 0.2s ease;
 
     svg {
-        width: 28px;
-        height: 28px;
+        width: 60px;
+        height: 60px;
+    }
+
+    &:hover {
+        background: rgba(59, 130, 246, 0.08);
+        border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    @media (max-width: 1330px) {
+        max-width: 30vw;
+    }
+
+    @media (max-width: 900px) {
+        font-size: 16px;
+
+        svg {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    @media (max-width: 800px) {
+        max-width: 45vw;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 15px;
+        gap: 12px;
+
+        svg {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        max-width: 85vw;
     }
 }
 
+
+
+/* ====== Карточка объявления ====== */
+.advert-card {
+    position: relative;
+    width: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    &__link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        width: 100%;
+    }
+}
+
+/* ====== Карточка внутри компонента advert ====== */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    aspect-ratio: 306 / 240;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+
+    &_img {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    &_text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px;
+
+        &-title {
+            font-family: var(--font-family);
+            font-size: 18px;
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        &-price {
+            font-family: var(--font-family);
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        &-meta {
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: #64748b;
+        }
+    }
+
+    &__actions {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: flex;
+        gap: 8px;
+        z-index: 10;
+    }
+}
+
+/* ====== Кнопки редактирования и удаления ====== */
+.edit-btn,
 .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    /* чуть левее кнопки редактирования */
     background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
@@ -148,10 +237,13 @@
     &:hover {
         background: white;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-
-        svg path {
-            stroke: #ef4444;
-            /* красный при наведении */
-        }
     }
+}
+
+.edit-btn:hover svg path {
+    stroke: #3b82f6;
+}
+
+.delete-btn:hover svg path {
+    stroke: #ef4444;
 }
