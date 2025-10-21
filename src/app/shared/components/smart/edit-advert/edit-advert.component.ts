@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, OnInit } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { AdvertService } from '../../../services/advert.service';
   templateUrl: './edit-advert.component.html',
   styleUrl: './edit-advert.component.scss',
 })
-export class EditAdvertComponent implements OnInit {
+export class EditAdvertComponent {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -40,13 +40,11 @@ export class EditAdvertComponent implements OnInit {
     this.advertId = this.route.snapshot.paramMap.get('id')!;
     this.categoriesService.loadAllCategories();
 
-    // Загружаем данные объявления (только для отображения, не для авто-подстановки категорий)
     this.editAdvertService.loadAdvert(this.advertId).subscribe((advert) => {
       this.images = (advert.imagesIds ?? []).map((id) => ({
         url: `${environment.baseApiURL}/Images/${id}`,
       }));
 
-      // создаём пустую форму, пользователь сам выбирает категории
       this.form = this.fb.group({
         name: [advert.name, Validators.required],
         description: [advert.description],
@@ -60,15 +58,12 @@ export class EditAdvertComponent implements OnInit {
       });
     });
 
-    // Следим за выбранной корневой категорией
     effect(() => {
       const id = this.selectedRootId();
       const found = this.categories().find((c) => c.id === id) || null;
       this.selectedRoot.set(found);
     });
   }
-
-  ngOnInit(): void {}
   onRootCategorySelect(event: Event) {
     const id = (event.target as HTMLSelectElement).value;
     this.form.get('categoryId')?.setValue(id);
@@ -92,25 +87,23 @@ export class EditAdvertComponent implements OnInit {
 
     const files = Array.from(input.files);
 
-    // 1️⃣ Проверяем, сколько файлов уже есть
     const availableSlots = 10 - this.images.length;
     if (availableSlots <= 0) {
       input.value = '';
-      return; // Уже 10, больше не добавляем
+      return;
     }
 
-    // 2️⃣ Берем только нужное количество файлов
     const filesToAdd = files.slice(0, availableSlots);
 
     for (const file of filesToAdd) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.images.push({ file, url: e.target.result });
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const result = e.target?.result as string;
+        this.images.push({ file, url: result });
       };
       reader.readAsDataURL(file);
     }
 
-    // 3️⃣ Сбрасываем input
     input.value = '';
   }
 
@@ -118,8 +111,15 @@ export class EditAdvertComponent implements OnInit {
     this.images.splice(index, 1);
   }
 
-  sendCity(event: any) {
-    const query = event.target?.value || event.query;
+  sendCity(event: Event | { query: string }): void {
+    const input = event as Event;
+    let query = 'query' in event ? event.query : ((input.target as HTMLInputElement)?.value ?? '');
+    if ('query' in event) {
+      query = event.query;
+    } else {
+      const target = event.target as HTMLInputElement | null;
+      query = target?.value ?? '';
+    }
 
     this.advertService.searchCity(query).subscribe((cities) => {
       this.items = cities;
@@ -151,14 +151,12 @@ export class EditAdvertComponent implements OnInit {
   }
 
   getFileSize(size: number | undefined): string {
-    if(size){
-        return size < 1024 * 1024
-      ? `${(size / 1024).toFixed(1)} КБ`
-      : `${(size / 1024 / 1024).toFixed(1)} МБ`;
+    if (size) {
+      return size < 1024 * 1024
+        ? `${(size / 1024).toFixed(1)} КБ`
+        : `${(size / 1024 / 1024).toFixed(1)} МБ`;
+    } else {
+      return '';
     }
-    else{
-      return 'жлрролро';
-    }
-  
   }
 }

@@ -12,16 +12,16 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './advert.component.scss',
 })
 export class AdvertComponent {
-private router = inject(Router)
+  private router = inject(Router);
 
   @Input() data!: ShortAdvert;
-  @Input() showActions: boolean = false; // по умолчанию кнопки скрыты
+  @Input() showActions = false;
   @Input() advertId!: string;
   @Input() from: 'my' | 'list' = 'list';
   @Output() delete = new EventEmitter<string>();
 
   confirmDelete() {
-    this.delete.emit(this.advertId); // emit string
+    this.delete.emit(this.advertId);
   }
 
   goToEdit() {
@@ -31,12 +31,8 @@ private router = inject(Router)
   onCardClick() {
     if (this.from === 'my') {
       this.router.navigate(['/my-adverts/my-advert-view', this.advertId]);
-    } 
-    else {
+    } else {
       this.router.navigate(['/advert-view', this.advertId]);
     }
   }
 }
-
-// [routerLink]="['/advert-view', item.id]"
-// '/my-adverts/my-advert-view'

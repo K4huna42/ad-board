@@ -36,15 +36,15 @@ export class AuthService {
             case 'registration':
               this.toast.show(
                 'Вы успешно зарегистрировались! Теперь войдите в свой аккаунт.',
-                'success'
-              ); 
+                'success',
+              );
               this.changeVisible(false);
               break;
           }
         }
       },
       () => {
-        this.toast.show('Ошибка', 'error')
+        this.toast.show('Ошибка', 'error');
       },
     );
   }

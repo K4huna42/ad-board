@@ -5,10 +5,8 @@ import {
 } from '../../features/advert-list/adapters';
 import { AdvertsApiService } from '../../infrastructure/adverts/services/adverts.api.service';
 import { ShortAdvert } from '../../features/advert-list/domains/short-advert.interface';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoriesService } from '../../features/categories/services/categories.service';
-import { SafeUrl } from '@angular/platform-browser';
-import { Observable, of, map, catchError } from 'rxjs';
+import { Observable, of, catchError } from 'rxjs';
 import { ToastService } from '../components/dump/toast/services/toast.service';
 
 @Injectable({
@@ -17,7 +15,7 @@ import { ToastService } from '../components/dump/toast/services/toast.service';
 export class AdvertService {
   private advertApiService = inject(AdvertsApiService);
   private categoriesService = inject(CategoriesService);
-  private toast = inject(ToastService)
+  private toast = inject(ToastService);
 
   selectedRootId = signal<string | null>(null);
   selectedSubId = signal<string | null>(null);
@@ -54,7 +52,7 @@ export class AdvertService {
         this.responceAdvert.set(mapped);
       },
       (error) => {
-        this.toast.show('ошибка', 'error')
+        this.toast.show('ошибка', 'error');
         console.log(error.error.message);
       },
     );
@@ -67,7 +65,7 @@ export class AdvertService {
         this.responceAdvertId.set(adaptedValue);
       },
       (error) => {
-        this.toast.show('ошибка', 'error')
+        this.toast.show('ошибка', 'error');
         console.log(error.error.message);
       },
     );
@@ -77,9 +75,6 @@ export class AdvertService {
     if (!query || query.length < 2) {
       return of([]);
     }
-    return this.advertApiService.searchCity(query).pipe(
-      map((value: any) => value.suggestions.map((s: { data: { city: string } }) => s.data.city)),
-      catchError(() => of([])),
-    );
+    return this.advertApiService.searchCity(query).pipe(catchError(() => of([])));
   }
 }

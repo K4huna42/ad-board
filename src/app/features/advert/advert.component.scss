@@ -1,5 +1,5 @@
 .card {
-  position: relative; // добавляем, чтобы кнопки позиционировались относительно карточки
+  position: relative; 
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -52,14 +52,13 @@
     }
   }
 
-  // кнопки действий поверх
   &__actions {
     position: absolute;
     top: 8px;
     right: 8px;
     display: flex;
-    gap: 8px; // расстояние между кнопками
-    z-index: 10; // чтобы быть поверх содержимого
+    gap: 8px; 
+    z-index: 10; 
   }
 }
 

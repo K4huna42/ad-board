@@ -1,1 +1,41 @@
-<p>comments works!</p>
+<div class="comments-container">
+    <h2>Комментарии</h2>
+
+    <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="comment-form">
+        <textarea formControlName="text" placeholder="Напишите комментарий..." rows="3"
+            class="comment-input"></textarea>
+        <div class="form-footer">
+            <span class="char-count">{{ commentForm.get('text')?.value?.length || 0 }}/500</span>
+            <button type="submit" [disabled]="commentForm.invalid" class="submit-btn">Отправить</button>
+        </div>
+    </form>
+
+    @if (comments.length > 0) {
+    @for (comment of comments; track comment.id) {
+    <div class="comment">
+        <p class="comment-user">{{ comment.user?.name || 'Аноним' }}</p>
+
+        @if (editingCommentId === comment.id) {
+        <textarea [(ngModel)]="editText" rows="3" class="edit-input"></textarea>
+        <div class="edit-buttons">
+            <button (click)="saveEdit(comment.id)" class="save-btn">Сохранить</button>
+            <button (click)="cancelEdit()" class="cancel-btn">Отмена</button>
+        </div>
+        } @else {
+        <p class="comment-text">{{ comment.text }}</p>
+        }
+
+        <p class="comment-date">{{ comment.created | russianDate }}</p>
+
+        @if (comment.user?.id === userData()?.id) {
+        <div class="actions">
+            <button class="edit-btn" (click)="startEdit(comment)">Редактировать</button>
+            <button class="delete-btn" (click)="onDelete(comment.id)">Удалить</button>
+        </div>
+        }
+    </div>
+    }
+    } @else {
+    <p>Комментариев пока нет</p>
+    }
+</div>

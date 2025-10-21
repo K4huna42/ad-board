@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   private advertService = inject(AdvertService);
   private userDataApiService = inject(UserDataApiService);
   private breadcrumbsService = inject(BreadcrumbsService);
-  private toast = inject(ToastService)
+  private toast = inject(ToastService);
   private router = inject(Router);
 
   userData = this.userDataApiService.userData;
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
     if (this.stateAuth) {
       this.router.navigate(['/new-advert']);
     } else {
-      this.toast.show('Зарегистрируйтесь чтобы создать объявление', 'error')
+      this.toast.show('Зарегистрируйтесь чтобы создать объявление', 'error');
     }
   }
 

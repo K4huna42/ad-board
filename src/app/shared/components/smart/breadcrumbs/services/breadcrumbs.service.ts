@@ -1,23 +1,19 @@
 import { Injectable, signal } from '@angular/core';
-
-export interface BreadcrumbItem {
-  id?: string;
-  title: string;
-  url: string;
-}
+import { BreadcrumbItem } from '../domains/breadcrumb.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BreadcrumbsService {
-  breadcrumb = signal<any[]>([]);
+  breadcrumb = signal<BreadcrumbItem[]>([]);
 
   constructor() {
     const saved = localStorage.getItem('breadcrumbs');
     if (saved) {
       try {
         this.breadcrumb.set(JSON.parse(saved));
-      } catch {
+      } catch (error) {
+        console.error(error);
       }
     }
   }

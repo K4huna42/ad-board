@@ -8,7 +8,14 @@ import { ToastComponent } from './shared/components/dump/toast/toast.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, AuthComponent, BreadcrumbsComponent, ToastComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    AuthComponent,
+    BreadcrumbsComponent,
+    ToastComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

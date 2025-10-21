@@ -17,27 +17,24 @@ export class ImageComponent implements OnChanges {
   private imagesService = inject(ImageService);
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (!changes['img_ids']) return; // если в изменениях (changes) нет поля img_ids, значит массив картинок не изменился
+    if (!changes['img_ids']) return;
 
     if (this.img_ids.length === 0) {
-      // Если массив img_ids пустой:
-      this.imageUrls = []; //очищаем список картинок (imageUrls),
-      this.selectedImage = null; //сбрасываем выбранное изображение (selectedImage),
-      return; // сразу выходим.
+      this.imageUrls = [];
+      this.selectedImage = null;
+      return;
     }
 
-    const currentIds = [...this.img_ids]; // разворачиваем массив и создаем копию
-    const urls = await this.imagesService.reciveImg(currentIds); // отправляем id картинок и получаем ссылки на них
+    const currentIds = [...this.img_ids];
+    const urls = await this.imagesService.reciveImg(currentIds);
 
     if (this.img_ids.join(',') === currentIds.join(',')) {
-      /*Сравнение: не изменился ли массив img_ids за то время, пока мы ждали загрузку(Сравниваются оба массива как строки ("id1,id2,id3"))*/
-
       this.imageUrls = urls;
       this.selectedImage = urls[0] ?? null;
     }
   }
 
   selectImage(url: string) {
-    this.selectedImage = url; // используется для отображения выбранной картинки у конкретного объявления из миниатюр
+    this.selectedImage = url;
   }
 }

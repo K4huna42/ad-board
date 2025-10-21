@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { AdvertsApiService } from '../../../../../infrastructure/adverts/services/adverts.api.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map, of } from 'rxjs';
 import { UserDataApiService } from '../../../../services/user-data-api.service';
+import { ShortAdvert } from '../../../../../features/advert-list/domains';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +13,13 @@ export class NewAdvertService {
   private advertsApiService = inject(AdvertsApiService);
   private userDataApiService = inject(UserDataApiService);
 
-  createNewAdvert(form: FormData): Observable<any> {
+  createNewAdvert(form: FormData): Observable<ShortAdvert> {
     const token = localStorage.getItem('VXNlcklk');
 
-    return new Observable((observer) => {
+    return new Observable<ShortAdvert>((observer) => {
       if (token) {
         this.advertsApiService.createAdvert(form, token).subscribe({
-          next: (newAdvert: any) => {
-
-            // 🔥 Добавляем новое объявление в userData
+          next: (newAdvert: ShortAdvert) => {
             const currentUser = this.userDataApiService.userData();
             if (currentUser) {
               this.userDataApiService.userData.update((u) => ({
@@ -38,7 +36,6 @@ export class NewAdvertService {
           },
         });
       }
-    })
-
+    });
   }
 }

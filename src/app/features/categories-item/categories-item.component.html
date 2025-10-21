@@ -1,5 +1,6 @@
 <li>
-    <span (click)="onCategoryClick(cat)" [class.selected]="isSelected(cat.id)" class="category">
+    <span role="button" tabindex="0" (click)="onCategoryClick(cat)" (keyup.enter)="onCategoryClick(cat)"
+        (keyup.space)="onCategoryClick(cat)" [class.selected]="isSelected(cat.id)" class="category">
         @if(cat.hasChildren){
         <span class="category-icon">
             @if(!cat.expanded){

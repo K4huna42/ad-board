@@ -28,6 +28,7 @@
             <p class="description">{{ advert.description }}</p>
         </div>
     </div>
+
     @if (visible) {
     <div class="popup-overlay" role="button" tabindex="0" (click)="closePopUp()" (keydown.enter)="closePopUp()"
         (keydown.space)="closePopUp()">
@@ -46,9 +47,8 @@
         </div>
     </div>
     }
-    
+
+    <app-comments [comments]="comments()" [advertId]="advertId" (delete)="deleteComment($event)"></app-comments>
+
 </div>
 }
-
-
-

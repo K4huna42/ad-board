@@ -36,7 +36,7 @@
       Выберите категорию <span class="required-star">*</span>
     </p>
     <div class="dropdowns required">
-      <!-- Первая категория -->
+
       <div class="custom-select required">
         <select class="required" formControlName="categoryId" (change)="onRootCategorySelect($event)"
           [value]="selectedRootId() || ''">
@@ -58,7 +58,6 @@
       </ul>
       }
 
-      <!-- Подкатегория -->
       @if (selectedRoot()?.childs?.length) {
       <div class="custom-select required">
         <select class="required" formControlName="subCategoryId" (change)="onSubCategorySelect($event)"
@@ -95,7 +94,8 @@
         @if(items.length){
         <ul class="autocomplete_list">
           @for (city of items; track city) {
-          <li (click)="selectCity(city)" class="autocomplete_item">
+          <li class="autocomplete_item" role="button" tabindex="0" (click)="selectCity(city)"
+            (keyup.enter)="selectCity(city)" (keyup.space)="selectCity(city)">
             {{ city }}
           </li>
           }

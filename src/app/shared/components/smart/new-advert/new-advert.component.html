@@ -6,7 +6,6 @@
             Выберите категорию <span class="required-star">*</span>
         </p>
         <div class="dropdowns required">
-            <!-- Первый dropdown -->
             <div class="custom-select required">
                 <select class="required" formControlName="categoryId" (change)="onRootCategorySelect($event)"
                     [value]="selectedRootId() || ''">
@@ -16,14 +15,13 @@
                     }
                 </select>
             </div>
-            <!-- Ошибка -->
+
             @if(newAdvertForm.get('categoryId')?.touched && newAdvertForm.get('categoryId')?.invalid){
             <ul class="error-list">
                 @if(newAdvertForm.get('categoryId')?.errors?.['required']){<li>Поле обязательно</li>}
             </ul>
             }
 
-            <!-- Второй dropdown -->
             @if (selectedRoot()?.childs?.length) {
             <div class="custom-select required">
                 <select class="required" formControlName="subCategoryId" (change)="onSubCategorySelect($event)"
@@ -34,7 +32,7 @@
                     }
                 </select>
             </div>
-            <!-- Ошибка -->
+
             @if(newAdvertForm.get('subCategoryId')?.touched && newAdvertForm.get('subCategoryId')?.invalid){
             <ul class="error-list">
                 @if(newAdvertForm.get('subCategoryId')?.errors?.['required']){<li>Поле обязательно</li>}
@@ -43,7 +41,6 @@
             }
         </div>
 
-        <!-- Название -->
         <div>
             <p class="new_advert_text">
                 Название объявления <span class="required-star">*</span>
@@ -57,14 +54,13 @@
             }
         </div>
 
-        <!-- Описание -->
+
         <div>
             <p class="new_advert_text">Описание</p>
             <textarea class="new_advert_input-description" id="description" name="description" rows="4"
                 formControlName="description" placeholder="расскажите о товаре или услуге"></textarea>
         </div>
 
-        <!-- Адрес -->
         <div>
             <p class="new_advert_text">
                 Адрес (место проведения сделки) <span class="required-star">*</span>
@@ -74,8 +70,9 @@
                     placeholder="начните вводить адрес" class="autocomplete_input required" [value]="value" />
                 @if(items.length){
                 <ul class="autocomplete_list">
-                    @for(item of items; track item){
-                    <li (click)="selectCity(item)" class="autocomplete_item">
+                    @for(item of items; track $index){
+                    <li class="autocomplete_item" role="button" tabindex="0" (click)="selectCity(item)"
+                        (keyup.enter)="selectCity(item)" (keyup.space)="selectCity(item)">
                         {{ item }}
                     </li>
                     }
@@ -91,7 +88,7 @@
         </div>
 
 
-        <!-- Изображения -->
+
         <div class="upload">
             <div class="upload_header">
                 <label class="upload_button">
@@ -124,7 +121,6 @@
             </div>
         </div>
 
-        <!-- Цена -->
         <div>
             <p class="new_advert_text">
                 Цена <span class="required-star">*</span>
@@ -136,8 +132,6 @@
             </ul>
             }
         </div>
-
-        <!-- Телефон -->
         <div>
             <p class="new_advert_text">
                 Телефон <span class="required-star">*</span>
@@ -151,13 +145,11 @@
             }
         </div>
 
-        <!-- Email -->
         <div>
             <p class="new_advert_text">Email</p>
             <input type="email" class="new_advert_input-text" formControlName="email" placeholder="example@mail.com" />
         </div>
 
-        <!-- Кнопка -->
         <button class="new_advert_button-add" (click)="sendAdvert()">Разместить объявление</button>
     </div>
 </div>

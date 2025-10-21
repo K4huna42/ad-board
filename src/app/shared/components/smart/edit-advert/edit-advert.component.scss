@@ -96,7 +96,6 @@
     }
 }
 
-// Dropdowns
 .dropdowns {
     margin-top: 8px;
     display: flex;
@@ -144,7 +143,6 @@
     }
 }
 
-// Upload
 .upload {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -219,7 +217,7 @@
 
     &_details {
         flex: 1;
-        min-width: 0; // чтобы текст переносился
+        min-width: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -251,7 +249,7 @@
     }
 }
 
-// Autocomplete
+
 .autocomplete {
     position: relative;
     width: 100%;
@@ -296,7 +294,7 @@
     }
 }
 
-// Ошибки и required
+
 .required-star {
     color: #ef4444;
 }
@@ -324,7 +322,6 @@
     border-color: #10b981;
 }
 
-//---------------- Адаптация -----------------
 @media (max-width: 1024px) {
 
     .edit_advert_input-text,

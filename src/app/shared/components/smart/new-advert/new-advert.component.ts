@@ -26,7 +26,7 @@ export class NewAdvertComponent {
   private newAdvertService = inject(NewAdvertService);
   private advertService = inject(AdvertService);
   private fb = inject(FormBuilder);
-  private router = inject(Router)
+  private router = inject(Router);
 
   images: { file: File; url: SafeUrl }[] = [];
   value = '';
@@ -88,25 +88,23 @@ export class NewAdvertComponent {
 
     const files = Array.from(input.files);
 
-    // 1️⃣ Проверяем, сколько файлов уже есть
     const availableSlots = 10 - this.images.length;
     if (availableSlots <= 0) {
       input.value = '';
-      return; // Уже 10, больше не добавляем
+      return;
     }
 
-    // 2️⃣ Берем только нужное количество файлов
     const filesToAdd = files.slice(0, availableSlots);
 
     for (const file of filesToAdd) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.images.push({ file, url: e.target.result });
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const result = e.target?.result as string;
+        this.images.push({ file, url: result });
       };
       reader.readAsDataURL(file);
     }
 
-    // 3️⃣ Сбрасываем input
     input.value = '';
   }
 
@@ -120,8 +118,15 @@ export class NewAdvertComponent {
       : `${(size / 1024 / 1024).toFixed(1)} МБ`;
   }
 
-  sendCity(event: any) {
-    const query = event.target?.value || event.query;
+  sendCity(event: Event | { query: string }): void {
+    const input = event as Event;
+    let query = 'query' in event ? event.query : ((input.target as HTMLInputElement)?.value ?? '');
+    if ('query' in event) {
+      query = event.query;
+    } else {
+      const target = event.target as HTMLInputElement | null;
+      query = target?.value ?? '';
+    }
 
     this.advertService.searchCity(query).subscribe((cities) => {
       this.items = cities;
@@ -138,7 +143,7 @@ export class NewAdvertComponent {
     const formValue = this.newAdvertForm.value;
 
     for (const key in formValue) {
-      if (formValue.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(formValue, key)) {
         formData.append(key, formValue[key]);
       }
     }

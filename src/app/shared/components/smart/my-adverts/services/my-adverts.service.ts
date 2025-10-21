@@ -14,9 +14,7 @@ export class MyAdvertsService {
     if (!token) return;
 
     this.advertsApiService.deleteAdvert(token, id).subscribe({
-      next: (value) => {
-
-        // 🔥 Обновляем userData — убираем удалённое объявление
+      next: () => {
         const currentUser = this.userDataApiService.userData();
         if (currentUser) {
           this.userDataApiService.userData.update((u) => ({

@@ -10,13 +10,12 @@
 
   display: grid;
   gap: 16px;
-  grid-template-columns: 1fr; // по умолчанию 1 колонка >1300px
+  grid-template-columns: 1fr; 
 
   li {
     display: block;
   }
 
-  // Адаптация только ниже 1300px
   @media (max-width: 1300px) and (min-width: 1025px) {
     grid-template-columns: repeat(3, 1fr);
   }

@@ -1,25 +1,25 @@
 @if(imageUrls.length > 0){
-    @if(!showAll){
-        <div class="image-wrapper">
-            <img class="default_img" [src]="imageUrls[0]" alt="image" />
-        </div>
-        
-    }
-    @if(showAll){
-        <div class="main-image">
-            <img [src]="selectedImage" alt="main" />
-        </div>
+@if(!showAll){
+<div class="image-wrapper">
+    <img class="default_img" [src]="imageUrls[0]" alt="image" />
+</div>
 
-        <div class="thumbnails">
-            @for(img of imageUrls; track $index){
-                <img [src]="img" [class.active]="img === selectedImage" (click)="selectImage(img)" alt="thumb" />
-                <!-- class.active использует scss класс при каком-либо условии -->
-            }
-        </div>
+}
+@if(showAll){
+<div class="main-image">
+    <img [src]="selectedImage" alt="main" />
+</div>
+
+<div class="thumbnails">
+    @for(img of imageUrls; track $index){
+    <img [src]="img" [class.active]="img === selectedImage" (click)="selectImage(img)" (keyup.enter)="selectImage(img)"
+        (keyup.space)="selectImage(img)" tabindex="0" role="button" alt="thumb" class="image-thumb" />
     }
+</div>
+}
 }
 @if(imageUrls.length === 0){
-    <div class="image-wrapper">
-        <img class="none_img" src="nan_img.jpg" alt="" />
-    </div>
+<div class="image-wrapper">
+    <img class="none_img" src="nan_img.jpg" alt="" />
+</div>
 }

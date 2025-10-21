@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AdvertSearchRequestDto, ShortAdvertDtoInterface } from '../dto';
 import { environment } from '../../../../enviroments/environment.development';
+import { ShortAdvert } from '../../../features/advert-list/domains';
+import { DadataResponse } from '../../../shared/domains/dadata.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,26 +38,28 @@ export class AdvertsApiService {
     return this.http.get<ShortAdvertDtoInterface>(`${environment.baseApiURL}/Advert/${id}`);
   }
 
-  createAdvert(form: FormData, token: string) {
-    return this.http.post(`${environment.baseApiURL}/Advert`, form, {
+  createAdvert(form: FormData, token: string): Observable<ShortAdvert> {
+    return this.http.post<ShortAdvert>(`${environment.baseApiURL}/Advert`, form, {
       headers: this.getAuthHeaders(token),
     });
   }
 
-  searchCity(query: string) {
-    return this.http.post(
-      `${environment.DadataApiURL}/rs/suggest/address`,
-      {
-        query: query,
-        from_bound: { value: 'city' },
-        to_bound: { value: 'city' },
-      },
-      { headers: this.getAuthCityHeaders() },
-    );
+  searchCity(query: string): Observable<string[]> {
+    return this.http
+      .post<DadataResponse>(
+        `${environment.DadataApiURL}/rs/suggest/address`,
+        {
+          query: query,
+          from_bound: { value: 'city' },
+          to_bound: { value: 'city' },
+        },
+        { headers: this.getAuthCityHeaders() },
+      )
+      .pipe(map((value: DadataResponse) => value.suggestions.map((s) => s.data.city)));
   }
 
-  updateAdvert(form: FormData, token: string, id: string) {
-    return this.http.put(`${environment.baseApiURL}/Advert/${id}`, form, {
+  updateAdvert(form: FormData, token: string, id: string): Observable<ShortAdvert> {
+    return this.http.put<ShortAdvert>(`${environment.baseApiURL}/Advert/${id}`, form, {
       headers: this.getAuthHeaders(token),
     });
   }
@@ -64,15 +68,5 @@ export class AdvertsApiService {
     return this.http.delete(`${environment.baseApiURL}/Advert/${id}`, {
       headers: this.getAuthHeaders(token),
     });
-  }
-
-  createComment(token: string, id: string) {
-    return this.http.post(`${environment.baseApiURL}/Advert/${id}/comments`, {
-      headers: this.getAuthHeaders(token),
-    });
-  }
-
-  getAllComments(id: string) {
-    return this.http.get(`${environment.baseApiURL}/Advert/${id}/Comments`);
   }
 }

@@ -3,7 +3,6 @@ import { CategoriesService } from './services/categories.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoriesItemComponent } from '../categories-item/categories-item.component';
-import { AdvertService } from '../../shared/services/advert.service';
 
 @Component({
   selector: 'app-categories',

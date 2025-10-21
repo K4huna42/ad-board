@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
   selector: 'app-toast',
   imports: [CommonModule],
   templateUrl: './toast.component.html',
-  styleUrl: './toast.component.scss'
+  styleUrl: './toast.component.scss',
 })
 export class ToastComponent {
-   toast = inject(ToastService);
+  toast = inject(ToastService);
 
   clear() {
     this.toast.clear();

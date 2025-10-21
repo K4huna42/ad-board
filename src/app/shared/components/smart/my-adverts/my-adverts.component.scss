@@ -32,7 +32,7 @@
         display: grid;
         gap: 24px;
         flex: 1;
-        grid-template-columns: repeat(4, 1fr); // по умолчанию 4 колонки
+        grid-template-columns: repeat(4, 1fr);
         align-items: stretch;
 
         @media (max-width: 1296px) and (min-width: 1025px) {
@@ -76,9 +76,9 @@
     justify-content: center;
 
     width: 100%;
-    max-width: 306px; // как у карточки
-    min-height: 324.7px; // минимальная высота как у карточки на full screen
-    height: auto; // убираем 100%, чтобы не сжималась
+    max-width: 306px; 
+    min-height: 324.7px; 
+    height: auto;
     border-radius: 4px;
     background: rgba(59, 130, 246, 0.04);
     border: 3px dashed rgba(59, 130, 246, 0.16);

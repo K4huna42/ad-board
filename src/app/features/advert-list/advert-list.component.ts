@@ -48,18 +48,14 @@ export class AdvertListComponent implements OnInit {
       const categoryId = params.get('id');
 
       if (categoryId) {
-        // ✅ Добавляем хлебную крошку категории
         await this.categoriesService.setBreadcrumbByCategoryId(categoryId);
 
-        // ✅ Обновляем форму и фильтруем объявления по категории
         this.advertForm.patchValue({ category: categoryId });
       } else {
-        // ✅ Очищаем хлебные крошки и фильтр по категории
         this.categoriesService['breadcrumbsService'].clear();
         this.advertForm.patchValue({ category: null });
       }
 
-      // ✅ Теперь, после обновления формы, вызываем запрос
       this.advertService.getAdverts(this.advertForm.value);
     });
   }

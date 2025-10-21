@@ -10,7 +10,7 @@ import { ToastService } from '../components/dump/toast/services/toast.service';
 })
 export class UserDataApiService {
   private readonly http = inject(HttpClient);
-  private toast = inject(ToastService)
+  private toast = inject(ToastService);
 
   readonly userData = signal<User | null>(null);
 
@@ -56,7 +56,7 @@ export class UserDataApiService {
         }
       },
       (error) => {
-        this.toast.show('ошибка', 'error')
+        this.toast.show('ошибка', 'error');
         console.log(error.error.message);
       },
     );

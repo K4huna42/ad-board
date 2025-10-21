@@ -7,7 +7,7 @@ import { ToastService } from '../../../dump/toast/services/toast.service';
 })
 export class SettingsService {
   private userDataApiService = inject(UserDataApiService);
-  private toast = inject(ToastService)
+  private toast = inject(ToastService);
   userData = this.userDataApiService.userData;
 
   putData(formData: FormData) {
@@ -15,13 +15,10 @@ export class SettingsService {
     const id = this.userData()?.id;
 
     if (id != null && token != null) {
-      this.userDataApiService.putUserData(formData, id, token).subscribe(
-        () => {},
-        (error) => {
-          this.toast.show('ошибка', 'error')
-          console.log(error.error.message);
-        },
-      );
+      this.userDataApiService.putUserData(formData, id, token).subscribe(null, (error) => {
+        this.toast.show('ошибка', 'error');
+        console.log(error.error.message);
+      });
     }
   }
 }

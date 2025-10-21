@@ -1,14 +1,14 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdvertService } from '../../shared/services/advert.service';
-import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ImageComponent } from '../../shared/components/smart/images/images.component';
-import { ShortAdvert } from '../advert-list/domains';
-import { CommentsComponent } from '../comments/comments.component';
 import { CommentsService } from '../comments/services/comments.service';
+import { Comment } from '../comments/domains/comment.interface';
+import { CommentsComponent } from '../comments/comments.component';
 
 @Component({
+  standalone: true,
   selector: 'app-advert-view',
   imports: [CommonModule, ImageComponent, CommentsComponent],
   templateUrl: './advert-view.component.html',
@@ -17,11 +17,11 @@ import { CommentsService } from '../comments/services/comments.service';
 export class AdvertViewComponent implements OnInit {
   advertId = '';
   visible = false;
+  comments: WritableSignal<Comment[]> = signal([]);
 
   private activatedRoute = inject(ActivatedRoute);
   private advertService = inject(AdvertService);
-  private commentsService = inject(CommentsService)
-  
+  private commentsService = inject(CommentsService);
 
   responceAdvertId = this.advertService.responceAdvertId;
 
@@ -34,7 +34,7 @@ export class AdvertViewComponent implements OnInit {
   ngOnInit(): void {
     this.advertId = this.activatedRoute.snapshot.paramMap.get('id') ?? '';
     this.showAdvert();
-    this.getAllComments(this.advertId)
+    this.loadComments(this.advertId);
   }
 
   showAdvert() {
@@ -49,8 +49,15 @@ export class AdvertViewComponent implements OnInit {
     this.advertService.changeVisible(true);
   }
 
-  getAllComments(id: string) {
-    this.commentsService.getAllThisComments(id)
+  loadComments(id: string) {
+    this.commentsService.getAllThisComments(id).subscribe((value: Comment[]) => {
+      this.comments.set(value);
+    });
   }
 
+  deleteComment(commentId: string) {
+    this.commentsService.deleteComment(commentId).subscribe(() => {
+      this.comments.update((list) => list.filter((c) => c.id !== commentId));
+    });
+  }
 }

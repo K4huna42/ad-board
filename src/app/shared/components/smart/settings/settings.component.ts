@@ -96,7 +96,6 @@ export class SettingsComponent implements OnInit {
 
     this.settingsService.putData(formData);
 
-    // Показываем сообщение на 3 секунды
     this.successMessage = true;
 
     this.settingsProfileForm.get('password')?.reset();
